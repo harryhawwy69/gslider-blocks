@@ -424,13 +424,13 @@ export default function Edit( {
 						ref={ swiperContainerRef }
 						role="region"
 						aria-label="Logo Carousel"
+						{ ...( globalID && { id: globalID } ) }
 					>
 						<div className="swiper-wrapper">
 							{ logos.map( ( item, index ) => (
 								<div className="swiper-slide" key={ item.id }>
 									<div
 										className={ `gslider-logo-carousel-content-wrapper ${ globalClass }` }
-										{ ...( globalID && { id: globalID } ) }
 										ref={ panelRef }
 									>
 										<div

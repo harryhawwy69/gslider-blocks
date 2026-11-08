@@ -59,6 +59,7 @@ export default function Save( { attributes } ) {
 				? 'has-pagination'
 				: ''
 		}`,
+		...( globalID ? { id: globalID } : {} ),
 	} );
 
 	const captionEnabled = {
@@ -200,7 +201,6 @@ export default function Save( { attributes } ) {
 						<div key={ item.id } className={ `swiper-slide` }>
 							<div
 								className={ `gslider-image-slider-content-wrapper ${ globalClass }` }
-								{ ...( globalID && { id: globalID } ) }
 							>
 								<div
 									className="gslider-image-item"

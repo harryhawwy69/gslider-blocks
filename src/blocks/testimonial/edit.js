@@ -615,14 +615,17 @@ export default function Edit( {
 			{ renderSliderToolbarControls() }
 
 			<div { ...blockProps }>
-				<div className="swiper" ref={ swiperContainerRef }>
+				<div
+					className="swiper"
+					ref={ swiperContainerRef }
+					{ ...( globalID && { id: globalID } ) }
+				>
 					<div className="swiper-wrapper">
 						{ sliderItemList.map( ( item, index ) => {
 							return (
 								<div className="swiper-slide" key={ item.id }>
 									<div
 										className={ `gslider-content-wrapper ${ item.id } ${ globalClass }` }
-										{ ...( globalID && { id: globalID } ) }
 										ref={ panelRef }
 									>
 										<div className="gslider-content-inner-wrapper">

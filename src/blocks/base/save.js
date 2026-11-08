@@ -60,6 +60,7 @@ export default function Save( { attributes } ) {
 				? 'has-pagination'
 				: ''
 		}`,
+		...( globalID ? { id: globalID } : {} ),
 	} );
 
 	const navigationEnabled = {
@@ -197,7 +198,6 @@ export default function Save( { attributes } ) {
 						>
 							<div
 								className={ `gslider-content-wrapper ${ item.id } ${ globalClass }` }
-								{ ...( globalID && { id: globalID } ) }
 							>
 								<div className="gslider-content-inner-wrapper">
 									<div className="gslider-list-item">

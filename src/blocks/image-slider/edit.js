@@ -440,13 +440,13 @@ export default function Edit( {
 						ref={ swiperContainerRef }
 						role="region"
 						aria-label="Image Slider"
+						{ ...( globalID && { id: globalID } ) }
 					>
 						<div className="swiper-wrapper">
 							{ images.map( ( item, index ) => (
 								<div className="swiper-slide" key={ item.id }>
 									<div
 										className={ `gslider-image-slider-content-wrapper ${ globalClass }` }
-										{ ...( globalID && { id: globalID } ) }
 										ref={ panelRef }
 									>
 										<div
