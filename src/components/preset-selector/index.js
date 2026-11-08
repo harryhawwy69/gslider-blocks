@@ -71,13 +71,22 @@ const PresetSelector = ( {
 		const unitsKey = `${ attributeKey.replace( device, '' ) }Units`;
 		const cssStyleKey = `${ attributeKey }CssStyle`;
 		const units = attributesSource?.[ unitsKey ]?.[ device ] || 'px';
+		const formatSide = ( v, u ) =>
+			v === '' || v === undefined || v === null ? '0' : `${ v }${ u }`;
+
 		const hasAnyValue = Object.values( attributeValue ).some(
 			( item ) => item !== '' && item !== undefined && item !== null
 		);
 
 		return {
 			[ cssStyleKey ]: hasAnyValue
-				? `${ attributeValue.top }${ units } ${ attributeValue.right }${ units } ${ attributeValue.bottom }${ units } ${ attributeValue.left }${ units }`
+				? `${ formatSide( attributeValue.top, units ) } ${ formatSide(
+						attributeValue.right,
+						units
+				  ) } ${ formatSide(
+						attributeValue.bottom,
+						units
+				  ) } ${ formatSide( attributeValue.left, units ) }`
 				: '',
 		};
 	};
