@@ -124,7 +124,7 @@ export default function ResponsiveSpacingControl( {
 	 * @since 1.0.0
 	 */
 	useEffect( () => {
-		const formatSide = ( value, unit ) =>
+		const formatSpacingSide = ( value, unit ) =>
 			value === '' || value === undefined || value === null
 				? '0'
 				: `${ value }${ unit }`;
@@ -138,13 +138,16 @@ export default function ResponsiveSpacingControl( {
 				hasValue( spacing.left );
 
 			return hasAny
-				? `${ formatSide( spacing.top, units ) } ${ formatSide(
+				? `${ formatSpacingSide(
+						spacing.top,
+						units
+				  ) } ${ formatSpacingSide(
 						spacing.right,
 						units
-				  ) } ${ formatSide( spacing.bottom, units ) } ${ formatSide(
-						spacing.left,
+				  ) } ${ formatSpacingSide(
+						spacing.bottom,
 						units
-				  ) }`
+				  ) } ${ formatSpacingSide( spacing.left, units ) }`
 				: '';
 		};
 

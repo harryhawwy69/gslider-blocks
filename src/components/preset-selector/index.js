@@ -71,7 +71,7 @@ const PresetSelector = ( {
 		const unitsKey = `${ attributeKey.replace( device, '' ) }Units`;
 		const cssStyleKey = `${ attributeKey }CssStyle`;
 		const units = attributesSource?.[ unitsKey ]?.[ device ] || 'px';
-		const formatSide = ( v, u ) =>
+		const formatSpacingSide = ( v, u ) =>
 			v === '' || v === undefined || v === null ? '0' : `${ v }${ u }`;
 
 		const hasAnyValue = Object.values( attributeValue ).some(
@@ -80,13 +80,16 @@ const PresetSelector = ( {
 
 		return {
 			[ cssStyleKey ]: hasAnyValue
-				? `${ formatSide( attributeValue.top, units ) } ${ formatSide(
+				? `${ formatSpacingSide(
+						attributeValue.top,
+						units
+				  ) } ${ formatSpacingSide(
 						attributeValue.right,
 						units
-				  ) } ${ formatSide(
+				  ) } ${ formatSpacingSide(
 						attributeValue.bottom,
 						units
-				  ) } ${ formatSide( attributeValue.left, units ) }`
+				  ) } ${ formatSpacingSide( attributeValue.left, units ) }`
 				: '',
 		};
 	};
