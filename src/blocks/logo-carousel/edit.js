@@ -423,7 +423,7 @@ export default function Edit( {
 						className="swiper"
 						ref={ swiperContainerRef }
 						role="region"
-						aria-label="Logo Carousel"
+						aria-label={ __( 'Logo Carousel', 'gslider-blocks' ) }
 					>
 						<div className="swiper-wrapper">
 							{ logos.map( ( item, index ) => (
@@ -816,14 +816,20 @@ export default function Edit( {
 											className="swiper-button-prev"
 											role="button"
 											tabIndex={ 0 }
-											aria-label="Previous slide"
+											aria-label={ __(
+												'Previous slide',
+												'gslider-blocks'
+											) }
 										></div>
 										<div
 											ref={ nextRef }
 											className="swiper-button-next"
 											role="button"
 											tabIndex={ 0 }
-											aria-label="Next slide"
+											aria-label={ __(
+												'Next slide',
+												'gslider-blocks'
+											) }
 										></div>
 									</div>
 								</>
@@ -840,7 +846,10 @@ export default function Edit( {
 										ref={ prevRef }
 										role="button"
 										tabIndex={ 0 }
-										aria-label="Previous slide"
+										aria-label={ __(
+											'Previous slide',
+											'gslider-blocks'
+										) }
 									>
 										{ navigationArrowsIconLeftAlign ===
 											'image' &&
@@ -864,7 +873,10 @@ export default function Edit( {
 										ref={ nextRef }
 										role="button"
 										tabIndex={ 0 }
-										aria-label="Next slide"
+										aria-label={ __(
+											'Next slide',
+											'gslider-blocks'
+										) }
 									>
 										{ navigationArrowsIconRightAlign ===
 											'image' &&
@@ -906,14 +918,20 @@ export default function Edit( {
 									className="swiper-button-prev"
 									role="button"
 									tabIndex={ 0 }
-									aria-label="Previous slide"
+									aria-label={ __(
+										'Previous slide',
+										'gslider-blocks'
+									) }
 								></div>
 								<div
 									ref={ nextRef }
 									className="swiper-button-next"
 									role="button"
 									tabIndex={ 0 }
-									aria-label="Next slide"
+									aria-label={ __(
+										'Next slide',
+										'gslider-blocks'
+									) }
 								></div>
 							</div>
 						</>
@@ -930,7 +948,10 @@ export default function Edit( {
 								ref={ prevRef }
 								role="button"
 								tabIndex={ 0 }
-								aria-label="Previous slide"
+								aria-label={ __(
+									'Previous slide',
+									'gslider-blocks'
+								) }
 							>
 								{ navigationArrowsIconLeftAlign === 'image' &&
 								navigationArrowsIconLeftImageUrl ? (
@@ -947,7 +968,10 @@ export default function Edit( {
 								ref={ nextRef }
 								role="button"
 								tabIndex={ 0 }
-								aria-label="Next slide"
+								aria-label={ __(
+									'Next slide',
+									'gslider-blocks'
+								) }
 							>
 								{ navigationArrowsIconRightAlign === 'image' &&
 								navigationArrowsIconRightImageUrl ? (
@@ -970,7 +994,7 @@ export default function Edit( {
 				<div
 					className="swiper-pagination swiper-pagination-logo-carousel"
 					ref={ paginationOutsideRef }
-					aria-label="Carousel pagination"
+					aria-label={ __( 'Carousel pagination', 'gslider-blocks' ) }
 				></div>
 			</div>
 			<style>{ blockStyle }</style>
