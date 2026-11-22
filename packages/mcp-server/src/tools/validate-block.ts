@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { z } from 'zod';
 import { BLOCK_ID_PREFIX, type SupportedBlockSlug } from '../core/registry.js';
 import {
@@ -124,12 +123,10 @@ function checkAttributes(
 		}
 	}
 
-	const sliderType =
-		typeof raw.sliderType === 'string'
-			? raw.sliderType
-			: carouselOnly
-			? 'carousel'
-			: 'slider';
+	let sliderType = carouselOnly ? 'carousel' : 'slider';
+	if ( typeof raw.sliderType === 'string' ) {
+		sliderType = raw.sliderType;
+	}
 	const activeKey =
 		sliderType === 'carousel' ? 'carouselEffect' : 'slideEffect';
 	if (
