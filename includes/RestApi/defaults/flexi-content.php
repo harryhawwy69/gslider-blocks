@@ -66,6 +66,7 @@ return [
 	],
 	'infiniteLoop' => true,
 	'enableGrabCursor' => false,
+	'centeredSlides' => false,
 	'allowTouchMove' => true,
 	'pauseOnHover' => false,
 	'stopOnLastSlide' => false,
