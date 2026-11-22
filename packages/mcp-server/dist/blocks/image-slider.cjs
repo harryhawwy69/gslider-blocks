@@ -2845,6 +2845,85 @@ function Save({ attributes: attributes2 }) {
       clickable: true
     }
   });
+  const renderItemMedia = (item) => {
+    if (isExternalVideo(item)) {
+      return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+        "div",
+        {
+          className: "gslider-embed-video",
+          "data-embed-type": item.videoSource,
+          "data-embed-id": item.videoExternalId,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              "img",
+              {
+                className: "gslider-embed-video-poster",
+                src: item.url,
+                alt: item.alt || `video ${images.indexOf(item) + 1}`,
+                loading: enableLazyLoad ? "lazy" : void 0
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              "button",
+              {
+                type: "button",
+                className: "gslider-embed-video-play",
+                "aria-label": "Play video"
+              }
+            )
+          ]
+        }
+      );
+    }
+    if (lightboxDevices) {
+      return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+        "a",
+        {
+          href: item.url,
+          "data-fslightbox": blockId,
+          "data-caption": item.caption,
+          className: "gslider-image-link",
+          ...linkOnLightboxOff && item.link && {
+            "data-image-link": item.link,
+            "data-image-link-target": imageLinkTarget,
+            "data-image-link-rel": imageLinkRel
+          },
+          children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+            "img",
+            {
+              src: item.url,
+              alt: item.alt || `image ${images.indexOf(item) + 1}`,
+              loading: enableLazyLoad ? "lazy" : void 0
+            }
+          )
+        }
+      );
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: enableimageLinks && item.link ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+      "a",
+      {
+        href: item.link,
+        target: imageLinkTarget,
+        rel: imageLinkRel,
+        className: "gslider-image-link",
+        children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "img",
+          {
+            src: item.url,
+            alt: item.alt || `image ${images.indexOf(item) + 1}`,
+            loading: enableLazyLoad ? "lazy" : void 0
+          }
+        )
+      }
+    ) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+      "img",
+      {
+        src: item.url,
+        alt: item.alt || `image ${images.indexOf(item) + 1}`,
+        loading: enableLazyLoad ? "lazy" : void 0
+      }
+    ) });
+  };
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
     "div",
     {
@@ -2862,81 +2941,7 @@ function Save({ attributes: attributes2 }) {
                 className: "gslider-image-item",
                 "data-hover-effect": imageLinkHoverEffect,
                 children: [
-                  isExternalVideo(item) ? /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
-                    "div",
-                    {
-                      className: "gslider-embed-video",
-                      "data-embed-type": item.videoSource,
-                      "data-embed-id": item.videoExternalId,
-                      children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-                          "img",
-                          {
-                            className: "gslider-embed-video-poster",
-                            src: item.url,
-                            alt: item.alt || `video ${images.indexOf(item) + 1}`,
-                            loading: enableLazyLoad ? "lazy" : void 0
-                          }
-                        ),
-                        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-                          "button",
-                          {
-                            type: "button",
-                            className: "gslider-embed-video-play",
-                            "aria-label": "Play video"
-                          }
-                        )
-                      ]
-                    }
-                  ) : lightboxDevices ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-                    "a",
-                    {
-                      href: item.url,
-                      "data-fslightbox": blockId,
-                      "data-caption": item.caption,
-                      className: "gslider-image-link",
-                      ...linkOnLightboxOff && item.link && {
-                        "data-image-link": item.link,
-                        "data-image-link-target": imageLinkTarget,
-                        "data-image-link-rel": imageLinkRel
-                      },
-                      children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-                        "img",
-                        {
-                          src: item.url,
-                          alt: item.alt || `image ${images.indexOf(item) + 1}`,
-                          loading: enableLazyLoad ? "lazy" : void 0
-                        }
-                      )
-                    }
-                  ) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: enableimageLinks && item.link ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-                    "a",
-                    {
-                      href: item.link,
-                      target: imageLinkTarget,
-                      rel: imageLinkRel,
-                      className: "gslider-image-link",
-                      children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-                        "img",
-                        {
-                          src: item.url,
-                          alt: item.alt || `image ${images.indexOf(
-                            item
-                          ) + 1}`,
-                          loading: enableLazyLoad ? "lazy" : void 0
-                        }
-                      )
-                    }
-                  ) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-                    "img",
-                    {
-                      src: item.url,
-                      alt: item.alt || `image ${images.indexOf(
-                        item
-                      ) + 1}`,
-                      loading: enableLazyLoad ? "lazy" : void 0
-                    }
-                  ) }),
+                  renderItemMedia(item),
                   showTooltip && item.tooltipText && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "gslider-image-tooltip", children: item.tooltipText })
                 ]
               }
