@@ -183,12 +183,8 @@ function validate( input: z.infer< typeof validateInputZod > ): Report {
 		}
 		const blockSlug = slug as GeneratableSlug;
 		const { blocks } = prepareBlock( blockSlug );
-		const raw = commentAttributes( input.markup );
-		if ( ! raw ) {
-			throw new Error(
-				'markup has no attribute JSON in the block comment.'
-			);
-		}
+		// A comment without JSON is a block whose attributes are all defaults
+		const raw = commentAttributes( input.markup ) ?? {};
 		const errors = checkAttributes( blockSlug, raw );
 		const parsed = blocks.parse( input.markup )[ 0 ];
 		const validation = parsed

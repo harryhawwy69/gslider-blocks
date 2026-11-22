@@ -11,14 +11,20 @@ export function commentAttributes(
 	if ( commentAt < 0 ) {
 		return null;
 	}
+	// The comment ends at its own `-->`, so a `{` in the HTML that follows it,
+	// or in a later block, is never read as this block's attributes
+	const commentClose = markup.indexOf( '-->', commentAt );
+	const commentEnd = commentClose < 0 ? markup.length : commentClose;
 	const jsonAt = markup.indexOf( '{', commentAt );
-	if ( jsonAt < 0 ) {
-		return null;
+	// No JSON in the comment means every attribute is at its default, which is
+	// how Gutenberg writes a block whose attributes are all defaults
+	if ( jsonAt < 0 || jsonAt > commentEnd ) {
+		return {};
 	}
 	let depth = 0;
 	let inString = false;
 	let escaped = false;
-	for ( let index = jsonAt; index < markup.length; index += 1 ) {
+	for ( let index = jsonAt; index < commentEnd; index += 1 ) {
 		const character = markup[ index ];
 		if ( inString ) {
 			if ( escaped ) {
@@ -39,13 +45,21 @@ export function commentAttributes(
 		} else if ( character === '}' ) {
 			depth -= 1;
 			if ( depth === 0 ) {
-				return JSON.parse(
-					markup.slice( jsonAt, index + 1 )
-				) as Record< string, unknown >;
+				try {
+					return JSON.parse(
+						markup.slice( jsonAt, index + 1 )
+					) as Record< string, unknown >;
+				} catch {
+					throw new Error(
+						'markup has malformed attribute JSON in the block comment.'
+					);
+				}
 			}
 		}
 	}
-	return null;
+	throw new Error(
+		'markup has malformed attribute JSON in the block comment.'
+	);
 }
 
 export function blockNameFromMarkup( markup: string ): string | null {
