@@ -59,6 +59,13 @@ jobs:
             exit 1
           fi
 
+      - name: Verify Committed Admin Bundle and REST Defaults
+        run: |
+          if ! git diff --exit-code -- assets/admin includes/RestApi/defaults; then
+            echo "::error::Committed admin assets or REST defaults are out of date. Run \"npm run build && npm run admin:build\" and commit assets/admin and includes/RestApi/defaults."
+            exit 1
+          fi
+
       - name: Verify Distribution Zip Archive
         run: npm run zip
 
