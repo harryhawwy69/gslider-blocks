@@ -38,8 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: write
-      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -56,12 +54,31 @@ jobs:
       - name: Build Storybook static distribution
         run: npm run storybook:build
 
+      - name: Upload the static distribution for the Pages job
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: './storybook-static'
+
+  package:
+    name: Package for GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Download the static distribution
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: './storybook-static'
+
       - name: Configure GitHub Pages
-        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v6
 
       - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
         with:
           path: './storybook-static'
@@ -69,7 +86,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     if: github.event_name != 'pull_request'
-    needs: build
+    needs: package
     runs-on: ubuntu-latest
     permissions:
       pages: write
