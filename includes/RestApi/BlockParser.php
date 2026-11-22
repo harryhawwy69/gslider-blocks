@@ -52,7 +52,6 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 			'paginationType',
 			'dynamicBullets',
 			'infiniteLoop',
-			'centeredSlides',
 			'allowTouchMove',
 			'enableGrabCursor',
 			'mousewheelControl',
@@ -501,7 +500,6 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 			$config = [
 				'effect'         => $effect,
 				'loop'           => ! empty( $attrs['infiniteLoop'] ),
-				'centeredSlides' => ! empty( $attrs['centeredSlides'] ),
 				'allowTouchMove' => $allow_touch_move,
 				'mousewheel'     => ! empty( $attrs['mousewheelControl'] ),
 				'keyboard'       => ! empty( $attrs['keyboardNavigation'] ) ? [
@@ -572,6 +570,10 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 			}
 
 			if ( 'gslider-blocks/post-carousel' === $block_name && ! empty( $attrs['enableSpotlight'] ) ) {
+				$config['centeredSlides'] = true;
+			}
+
+			if ( 'gslider-blocks/flexi-content' === $block_name && ! empty( $attrs['centeredSlides'] ) ) {
 				$config['centeredSlides'] = true;
 			}
 
