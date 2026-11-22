@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, react-hooks/exhaustive-deps, import/no-unresolved, jsdoc/require-param, no-nested-ternary, jsx-a11y/anchor-is-valid */
+/* eslint-disable no-unused-vars, react-hooks/exhaustive-deps, import/no-unresolved, jsdoc/require-param, jsx-a11y/anchor-is-valid */
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { useBlockProps, BlockControls } from '@wordpress/block-editor';
 import {
@@ -41,6 +41,39 @@ import {
 	prefersReducedMotion,
 	onReducedMotionChange,
 } from '@Utils/animation-utils';
+
+/**
+ * Return the number of preview slides the newsroom queue asks for.
+ * @param {boolean} isDesktop  Whether the current device is the desktop one.
+ * @param {string}  deviceType The device the editor is previewing.
+ * @return {number|string} The slide count, or 'auto' where none is fixed.
+ */
+const desktopThumbsPerView = ( isDesktop, deviceType ) => {
+	if ( isDesktop ) {
+		return 4;
+	}
+	if ( deviceType === 'Tablet' ) {
+		return 3;
+	}
+	return 'auto';
+};
+
+/**
+ * Return the hero height the current device asks for, its own default
+ * standing in where the attribute has none.
+ * @param {string} deviceType The device the editor is previewing.
+ * @param {Object} attributes The block's attributes.
+ * @return {number} The height in pixels.
+ */
+const heroHeightFor = ( deviceType, attributes ) => {
+	if ( deviceType === 'Mobile' ) {
+		return attributes?.heroHeightMobile ?? 340;
+	}
+	if ( deviceType === 'Tablet' ) {
+		return attributes?.heroHeightTablet ?? 420;
+	}
+	return attributes?.heroHeightDesktop ?? 520;
+};
 
 /**
  * Post Carousel Gutenberg editor component.
@@ -582,11 +615,10 @@ export default function Edit( {
 				const thumbsSwiper = new window.Swiper(
 					queueContainerRef.current,
 					{
-						slidesPerView: isDesktop
-							? 4
-							: deviceType === 'Tablet'
-							? 3
-							: 'auto',
+						slidesPerView: desktopThumbsPerView(
+							isDesktop,
+							deviceType
+						),
 						direction: isDesktop ? 'vertical' : 'horizontal',
 						watchSlidesProgress: true,
 						spaceBetween: 12,
@@ -945,12 +977,7 @@ export default function Edit( {
 		} );
 	};
 
-	const currentHeroHeight =
-		deviceType === 'Mobile'
-			? attributes?.heroHeightMobile ?? 340
-			: deviceType === 'Tablet'
-			? attributes?.heroHeightTablet ?? 420
-			: attributes?.heroHeightDesktop ?? 520;
+	const currentHeroHeight = heroHeightFor( deviceType, attributes );
 
 	return (
 		<>
