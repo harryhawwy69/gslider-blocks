@@ -166,6 +166,10 @@ var attributes = {
     type: "boolean",
     default: false
   },
+  centeredSlides: {
+    type: "boolean",
+    default: false
+  },
   allowTouchMove: {
     type: "boolean",
     default: true
@@ -2205,6 +2209,7 @@ function Save({ attributes: attributes2 }) {
     enableAutoplayProgress,
     autoplayProgressPosition,
     infiniteLoop,
+    centeredSlides,
     allowTouchMove,
     enableGrabCursor,
     pauseOnHover,
@@ -2353,6 +2358,11 @@ function Save({ attributes: attributes2 }) {
     },
     // Common settings
     loop: anyMarqueeEnabled || infiniteLoop,
+    // Centered mode is serialized only when on, so a slider saved
+    // before it existed keeps byte-identical output
+    ...centeredSlides && {
+      centeredSlides: true
+    },
     autoplay: autoplay || anyMarqueeEnabled ? {
       pauseOnMouseEnter: anyMarqueeEnabled ? false : pauseOnHover,
       disableOnInteraction: false,
