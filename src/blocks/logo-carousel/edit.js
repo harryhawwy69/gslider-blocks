@@ -152,7 +152,19 @@ export default function Edit( {
 					( m.type === 'image' ||
 						( m.mime && m.mime.startsWith( 'image/' ) ) )
 			)
-			.map( mapMedia );
+			.map( ( m ) => {
+				const fresh = mapMedia( m );
+				// Keep per-logo settings (link, tooltip) of logos already in the carousel
+				const existing = logos.find( ( logo ) => logo.id === m.id );
+				if ( ! existing ) {
+					return fresh;
+				}
+				return {
+					...fresh,
+					link: existing.link ?? fresh.link,
+					tooltipText: existing.tooltipText ?? fresh.tooltipText,
+				};
+			} );
 		setAttributes( { logos: next } );
 	};
 
