@@ -11,6 +11,11 @@ const attributes = {
 		type: 'string',
 		default: '',
 	},
+	// a slide kept in the editor but left out of the frontend carousel
+	isSlideHidden: {
+		type: 'boolean',
+		default: false,
+	},
 
 	/** Start slider Item Background */
 	sliderItemNormalBackgroundType: {

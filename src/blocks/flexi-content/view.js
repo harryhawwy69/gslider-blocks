@@ -442,6 +442,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			try {
 				const swiperElement =
 					sliderContainer.querySelector( '.swiper' );
+				// A draft slide leaves the DOM before Swiper counts the slides, so
+				// pagination, loop copies and slide indices stay exact
+				swiperElement
+					?.querySelectorAll( '.swiper-slide.is-slide-hidden' )
+					.forEach( ( hiddenSlide ) => hiddenSlide.remove() );
 				if (
 					! swiperElement ||
 					swiperElement.classList.contains( 'swiper-initialized' )

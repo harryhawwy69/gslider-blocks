@@ -1,1 +1,24 @@
 // Editor-specific styles for the Flexi Content Item block
+
+/* A slide kept out of the frontend carousel stays editable here */
+.flexi-content-item.is-slide-hidden {
+	position: relative;
+	opacity: 0.55;
+	filter: grayscale(30%);
+}
+
+.gslider-flexi-content-item-hidden-badge {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 2;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #1e1e1e;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 18px;
+	letter-spacing: 0.2px;
+	pointer-events: none;
+}

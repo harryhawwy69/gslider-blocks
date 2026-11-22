@@ -1,10 +1,13 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 export default function Save( { attributes } ) {
-	const { blockId } = attributes;
+	const { blockId, isSlideHidden } = attributes;
 
 	const blockProps = useBlockProps.save( {
-		className: `flexi-content-item swiper-slide ${ blockId }`,
+		// `is-slide-hidden` is what view.js prunes before Swiper counts slides
+		className: `flexi-content-item swiper-slide ${ blockId }${
+			isSlideHidden ? ' is-slide-hidden' : ''
+		}`,
 	} );
 
 	return (
