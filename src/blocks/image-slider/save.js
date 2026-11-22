@@ -201,6 +201,94 @@ export default function Save( { attributes } ) {
 		},
 	} );
 
+	/**
+	 * Render the saved media of one slide: the embed facade, the lightbox
+	 * link, or the plain image the block writes.
+	 * @param {Object} item The slide's own item.
+	 * @return {JSX.Element} The element saved for it.
+	 */
+	const renderItemMedia = ( item ) => {
+		if ( isExternalVideo( item ) ) {
+			return (
+				<div
+					className="gslider-embed-video"
+					data-embed-type={ item.videoSource }
+					data-embed-id={ item.videoExternalId }
+				>
+					{ /* Facade only, view.js loads the player iframe on play click */ }
+					<img
+						className="gslider-embed-video-poster"
+						src={ item.url }
+						alt={
+							item.alt || `video ${ images.indexOf( item ) + 1 }`
+						}
+						loading={ enableLazyLoad ? 'lazy' : undefined }
+					/>
+					<button
+						type="button"
+						className="gslider-embed-video-play"
+						aria-label="Play video"
+					></button>
+				</div>
+			);
+		}
+
+		if ( lightboxDevices ) {
+			return (
+				<a
+					href={ item.url }
+					data-fslightbox={ blockId }
+					data-caption={ item.caption }
+					className="gslider-image-link"
+					{ ...( linkOnLightboxOff &&
+						item.link && {
+							'data-image-link': item.link,
+							'data-image-link-target': imageLinkTarget,
+							'data-image-link-rel': imageLinkRel,
+						} ) }
+				>
+					<img
+						src={ item.url }
+						alt={
+							item.alt || `image ${ images.indexOf( item ) + 1 }`
+						}
+						loading={ enableLazyLoad ? 'lazy' : undefined }
+					/>
+				</a>
+			);
+		}
+
+		return (
+			<>
+				{ enableimageLinks && item.link ? (
+					<a
+						href={ item.link }
+						target={ imageLinkTarget }
+						rel={ imageLinkRel }
+						className="gslider-image-link"
+					>
+						<img
+							src={ item.url }
+							alt={
+								item.alt ||
+								`image ${ images.indexOf( item ) + 1 }`
+							}
+							loading={ enableLazyLoad ? 'lazy' : undefined }
+						/>
+					</a>
+				) : (
+					<img
+						src={ item.url }
+						alt={
+							item.alt || `image ${ images.indexOf( item ) + 1 }`
+						}
+						loading={ enableLazyLoad ? 'lazy' : undefined }
+					/>
+				) }
+			</>
+		);
+	};
+
 	return (
 		<div
 			{ ...blockProps }
@@ -218,116 +306,7 @@ export default function Save( { attributes } ) {
 									className="gslider-image-item"
 									data-hover-effect={ imageLinkHoverEffect }
 								>
-									{ /* eslint-disable-next-line no-nested-ternary */ }
-									{ isExternalVideo( item ) ? (
-										<div
-											className="gslider-embed-video"
-											data-embed-type={ item.videoSource }
-											data-embed-id={
-												item.videoExternalId
-											}
-										>
-											{ /* Facade only, view.js loads the player iframe on play click */ }
-											<img
-												className="gslider-embed-video-poster"
-												src={ item.url }
-												alt={
-													item.alt ||
-													`video ${
-														images.indexOf( item ) +
-														1
-													}`
-												}
-												loading={
-													enableLazyLoad
-														? 'lazy'
-														: undefined
-												}
-											/>
-											<button
-												type="button"
-												className="gslider-embed-video-play"
-												aria-label="Play video"
-											></button>
-										</div>
-									) : lightboxDevices ? (
-										<a
-											href={ item.url }
-											data-fslightbox={ blockId }
-											data-caption={ item.caption }
-											className="gslider-image-link"
-											{ ...( linkOnLightboxOff &&
-												item.link && {
-													'data-image-link':
-														item.link,
-													'data-image-link-target':
-														imageLinkTarget,
-													'data-image-link-rel':
-														imageLinkRel,
-												} ) }
-										>
-											<img
-												src={ item.url }
-												alt={
-													item.alt ||
-													`image ${
-														images.indexOf( item ) +
-														1
-													}`
-												}
-												loading={
-													enableLazyLoad
-														? 'lazy'
-														: undefined
-												}
-											/>
-										</a>
-									) : (
-										<>
-											{ enableimageLinks && item.link ? (
-												<a
-													href={ item.link }
-													target={ imageLinkTarget }
-													rel={ imageLinkRel }
-													className="gslider-image-link"
-												>
-													<img
-														src={ item.url }
-														alt={
-															item.alt ||
-															`image ${
-																images.indexOf(
-																	item
-																) + 1
-															}`
-														}
-														loading={
-															enableLazyLoad
-																? 'lazy'
-																: undefined
-														}
-													/>
-												</a>
-											) : (
-												<img
-													src={ item.url }
-													alt={
-														item.alt ||
-														`image ${
-															images.indexOf(
-																item
-															) + 1
-														}`
-													}
-													loading={
-														enableLazyLoad
-															? 'lazy'
-															: undefined
-													}
-												/>
-											) }
-										</>
-									) }
+									{ renderItemMedia( item ) }
 									{ showTooltip && item.tooltipText && (
 										<div className="gslider-image-tooltip">
 											{ item.tooltipText }
