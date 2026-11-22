@@ -204,6 +204,38 @@ export function prepareBlock( slug: string ): {
 	return { blocks, bundled, schema };
 }
 
+/**
+ * Returns the validation issues of a block and of every block nested in it.
+ *
+ * `validateBlock` checks one block against its own save output, so a tampered
+ * or invalid inner block is only found by walking the tree.
+ * @param blocksApi
+ * @param block
+ * @param path
+ */
+export function validationIssues(
+	blocksApi: { validateBlock: ( block: unknown ) => unknown },
+	block: unknown,
+	path = 'block'
+): unknown[] {
+	const current = block as { innerBlocks?: unknown[] };
+	const result = validationOf( blocksApi.validateBlock( current ) );
+	const own = result.isValid
+		? []
+		: result.issues.map(
+				( issue ) =>
+					`${ path }: ${
+						typeof issue === 'string'
+							? issue
+							: JSON.stringify( issue )
+					}`
+		  );
+	const nested = ( current.innerBlocks ?? [] ).flatMap( ( child, index ) =>
+		validationIssues( blocksApi, child, `${ path }.innerBlocks[${ index }]` )
+	);
+	return [ ...own, ...nested ];
+}
+
 export function validationOf( raw: unknown ): {
 	isValid: boolean;
 	issues: unknown[];

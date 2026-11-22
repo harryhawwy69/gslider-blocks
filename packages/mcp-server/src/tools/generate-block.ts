@@ -6,7 +6,7 @@ import {
 	loadBundledBlock,
 	prepareBlock,
 	registerCoreBlocksOnce,
-	validationOf,
+	validationIssues,
 } from '../core/block-runtime.js';
 import { commentAttributes } from '../core/markup.js';
 
@@ -383,18 +383,6 @@ function coreBlock(
 			url: inner.url ?? '',
 		} ),
 	] );
-}
-
-function validationIssues(
-	blocksApi: { validateBlock: ( block: unknown ) => unknown },
-	block: unknown
-): unknown[] {
-	const current = block as { innerBlocks?: unknown[] };
-	const result = validationOf( blocksApi.validateBlock( current ) );
-	const nested = ( current.innerBlocks ?? [] ).flatMap( ( child ) =>
-		validationIssues( blocksApi, child )
-	);
-	return result.isValid ? nested : [ ...result.issues, ...nested ];
 }
 
 function generate( input: GenerateInput ) {

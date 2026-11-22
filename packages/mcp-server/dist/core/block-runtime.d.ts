@@ -51,6 +51,18 @@ export declare function prepareBlock(slug: string): {
     bundled: BundledBlock;
     schema: BlockDetail;
 };
+/**
+ * Returns the validation issues of a block and of every block nested in it.
+ *
+ * `validateBlock` checks one block against its own save output, so a tampered
+ * or invalid inner block is only found by walking the tree.
+ * @param blocksApi
+ * @param block
+ * @param path
+ */
+export declare function validationIssues(blocksApi: {
+    validateBlock: (block: unknown) => unknown;
+}, block: unknown, path?: string): unknown[];
 export declare function validationOf(raw: unknown): {
     isValid: boolean;
     issues: unknown[];

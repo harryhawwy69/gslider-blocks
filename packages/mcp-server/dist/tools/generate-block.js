@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import { z } from 'zod';
 import { BLOCK_ID_PREFIX } from '../core/registry.js';
-import { attributeDefaults, loadBundledBlock, prepareBlock, registerCoreBlocksOnce, validationOf, } from '../core/block-runtime.js';
+import { attributeDefaults, loadBundledBlock, prepareBlock, registerCoreBlocksOnce, validationIssues, } from '../core/block-runtime.js';
 import { commentAttributes } from '../core/markup.js';
 export const GENERATABLE_SLUGS = [
     'base',
@@ -308,12 +308,6 @@ function coreBlock(blocksApi, inner) {
             url: inner.url ?? '',
         }),
     ]);
-}
-function validationIssues(blocksApi, block) {
-    const current = block;
-    const result = validationOf(blocksApi.validateBlock(current));
-    const nested = (current.innerBlocks ?? []).flatMap((child) => validationIssues(blocksApi, child));
-    return result.isValid ? nested : [...result.issues, ...nested];
 }
 function generate(input) {
     const slug = input.blockSlug;

@@ -6,6 +6,7 @@ import {
 	validationOf,
 } from '../core/block-runtime.js';
 import { blockNameFromMarkup, commentAttributes } from '../core/markup.js';
+import { validationIssues } from '../core/block-runtime.js';
 import { GENERATABLE_SLUGS, type GeneratableSlug } from './generate-block.js';
 
 const validateInputZod = z
@@ -73,7 +74,7 @@ function typeMatches( type: string, value: unknown ): boolean {
 }
 
 function checkAttributes(
-	slug: GeneratableSlug,
+	slug: string,
 	raw: Record< string, unknown >
 ): string[] {
 	const schema = prepareBlock( slug ).schema;
@@ -183,6 +184,87 @@ function styleWarning(
 	return null;
 }
 
+/**
+ * Returns the faults of one flexi-content-item's attributes.
+ *
+ * Only the attributes the item declares are read: the parsed block also
+ * carries core attributes such as `className`, which are not the schema's.
+ * @param raw
+ */
+function checkItemAttributes( raw: Record< string, unknown > ): string[] {
+	const schema = prepareBlock( 'flexi-content-item' ).schema;
+	const known: Record< string, unknown > = {};
+	for ( const [ key, value ] of Object.entries( raw ) ) {
+		if ( schema.attributes[ key ] ) {
+			known[ key ] = value;
+		}
+	}
+	return checkAttributes( 'flexi-content-item', known );
+}
+
+/**
+ * The core blocks the generator writes inside a slide.
+ */
+const SLIDE_CONTENT_BLOCKS = [
+	'core/paragraph',
+	'core/heading',
+	'core/image',
+	'core/buttons',
+	'core/button',
+];
+
+/**
+ * Returns the faults of a flexi-content slide tree, each with its path.
+ *
+ * Only `flexi-content-item` may sit directly under `flexi-content`, each
+ * slide's own attributes are checked as its child block is, and a slide holds
+ * only the core blocks the generator writes.
+ * @param block
+ * @param path
+ */
+function innerBlockErrors( block: unknown, path = 'block' ): string[] {
+	const current = block as { innerBlocks?: unknown[] };
+	const errors: string[] = [];
+
+	for ( const [ index, child ] of ( current.innerBlocks ?? [] ).entries() ) {
+		const childPath = `${ path }.innerBlocks[${ index }]`;
+		const item = child as {
+			name?: string;
+			attributes?: Record< string, unknown >;
+			innerBlocks?: unknown[];
+		};
+
+		if ( item.name !== 'gslider-blocks/flexi-content-item' ) {
+			errors.push(
+				`${ childPath }: only gslider-blocks/flexi-content-item may be a slide of flexi-content.`
+			);
+			continue;
+		}
+
+		errors.push(
+			...checkItemAttributes( item.attributes ?? {} ).map(
+				( error ) => `${ childPath }: ${ error }`
+			)
+		);
+
+		for ( const [ inner, content ] of (
+			item.innerBlocks ?? []
+		).entries() ) {
+			const contentPath = `${ childPath }.innerBlocks[${ inner }]`;
+			const name = ( content as { name?: string } ).name ?? '';
+			if ( ! SLIDE_CONTENT_BLOCKS.includes( name ) ) {
+				errors.push(
+					`${ contentPath }: ${ name } is not one of the blocks a slide holds (${ SLIDE_CONTENT_BLOCKS.join(
+						', '
+					) }).`
+				);
+			}
+		}
+	}
+
+	return errors;
+}
+
 function validate( input: z.infer< typeof validateInputZod > ): Report {
 	if ( input.markup && ( input.blockSlug || input.attributes ) ) {
 		throw new Error(
@@ -212,18 +294,24 @@ function validate( input: z.infer< typeof validateInputZod > ): Report {
 		}
 		const errors = checkAttributes( blockSlug, raw );
 		const parsed = blocks.parse( input.markup )[ 0 ];
-		const validation = parsed
-			? validationOf( blocks.validateBlock( parsed ) )
-			: { isValid: false, issues: [ 'nothing parsed' ] };
-		if ( ! validation.isValid ) {
-			errors.push( 'Block markup does not match the block save output.' );
+		const issues = parsed
+			? validationIssues( blocks, parsed )
+			: [ 'nothing parsed' ];
+		if ( issues.length > 0 ) {
+			errors.push(
+				'Block markup does not match the block save output.',
+				...issues.map( ( issue ) => String( issue ) )
+			);
+		}
+		if ( blockSlug === 'flexi-content' ) {
+			errors.push( ...innerBlockErrors( parsed ) );
 		}
 		const warning = styleWarning( blockSlug, raw );
 		return {
 			isValid: errors.length === 0,
 			errors,
 			warnings: warning ? [ warning ] : [],
-			validationLog: validation.issues,
+			validationLog: issues,
 		};
 	}
 
