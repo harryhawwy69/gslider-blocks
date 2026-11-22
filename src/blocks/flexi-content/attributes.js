@@ -89,6 +89,10 @@ const attributes = {
 		type: 'boolean',
 		default: false,
 	},
+	centeredSlides: {
+		type: 'boolean',
+		default: false,
+	},
 	allowTouchMove: {
 		type: 'boolean',
 		default: true,

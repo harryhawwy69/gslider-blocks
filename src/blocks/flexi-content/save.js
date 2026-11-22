@@ -14,6 +14,7 @@ export default function Save( { attributes } ) {
 		enableAutoplayProgress,
 		autoplayProgressPosition,
 		infiniteLoop,
+		centeredSlides,
 		allowTouchMove,
 		enableGrabCursor,
 		pauseOnHover,
@@ -240,6 +241,11 @@ export default function Save( { attributes } ) {
 
 		// Common settings
 		loop: anyMarqueeEnabled || infiniteLoop,
+		// Centered mode is serialized only when on, so a slider saved
+		// before it existed keeps byte-identical output
+		...( centeredSlides && {
+			centeredSlides: true,
+		} ),
 		autoplay:
 			autoplay || anyMarqueeEnabled
 				? {

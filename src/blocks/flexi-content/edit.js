@@ -38,6 +38,7 @@ export default function Edit( {
 		enableAutoplayProgress,
 		autoplayProgressPosition,
 		infiniteLoop,
+		centeredSlides,
 		allowTouchMove,
 		enableGrabCursor,
 		pauseOnHover,
@@ -262,6 +263,11 @@ export default function Edit( {
 					autoHeight: true,
 				} ),
 			loop: anyMarqueeEnabled || infiniteLoop,
+			// Centered mode is on only when asked for, so an existing
+			// slider keeps the settings it was saved with
+			...( centeredSlides && {
+				centeredSlides: true,
+			} ),
 			autoplay: autoplay
 				? {
 						delay: autoplayDelay?.[ deviceType ] || 1000,
@@ -511,6 +517,7 @@ export default function Edit( {
 		carouselPerColumn,
 		carouselPerColumnGap,
 		infiniteLoop,
+		centeredSlides,
 		autoplay,
 		autoplayDelay,
 		enableAutoplayProgress,
