@@ -764,9 +764,7 @@ const itemKeyReport = JSON.parse(
 			blockSlug: 'image-slider',
 			attributes: {
 				blockId: 'gslider-image-slider-abcd1234',
-				images: [
-					{ url: 'https://example.com/a.jpg', bogus: 1 },
-				],
+				images: [ { url: 'https://example.com/a.jpg', bogus: 1 } ],
 			},
 		} )
 	).content[ 0 ].text
