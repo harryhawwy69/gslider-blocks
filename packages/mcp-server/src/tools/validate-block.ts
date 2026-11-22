@@ -94,6 +94,27 @@ function checkAttributes(
 				`Attribute "${ key }" must be a ${ definition.type }.`
 			);
 		}
+		// A slide array carries objects, and an unknown key there reaches the
+		// saved content without ever being named
+		if ( key === schema.slideField && Array.isArray( value ) ) {
+			const itemSchema =
+				( schema.slideItemSchema as {
+					properties?: Record< string, unknown >;
+				} ) ?? {};
+			const itemKeys = Object.keys( itemSchema.properties ?? {} );
+			value.forEach( ( item, index ) => {
+				if ( ! item || typeof item !== 'object' ) {
+					return;
+				}
+				for ( const itemKey of Object.keys( item ) ) {
+					if ( ! itemKeys.includes( itemKey ) ) {
+						errors.push(
+							`Attribute "${ key }[${ index }]" has unknown key "${ itemKey }".`
+						);
+					}
+				}
+			} );
+		}
 		const allowed = schema.allowedValues?.[ key ];
 		if (
 			Array.isArray( allowed ) &&

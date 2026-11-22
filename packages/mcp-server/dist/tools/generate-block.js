@@ -168,7 +168,7 @@ export const generateBlockToolDefinition = {
             },
             attributes: {
                 type: 'object',
-                description: 'Raw attribute overrides by their real attribute names. These win over layout. Unknown names are rejected.',
+                description: 'Raw attribute overrides by their real attribute names. These win over layout; the slide array is not overridable. Unknown names are rejected.',
             },
         },
         required: ['blockSlug'],
@@ -331,6 +331,11 @@ function generate(input) {
     for (const key of Object.keys(overrides)) {
         if (RESERVED_ATTRIBUTES.includes(key)) {
             throw new GeneratorInputError(`"${key}" cannot be set through attributes. blockId and blockStyle are generated, and deviceType is editor-only state.`);
+        }
+        // The slide array is built from `slides`, item by item and validated;
+        // a raw override would bypass that
+        if (key === schema.slideField) {
+            throw new GeneratorInputError(`"${key}" cannot be set through attributes; pass slides instead.`);
         }
         const definition = schema.attributes[key];
         if (!definition) {

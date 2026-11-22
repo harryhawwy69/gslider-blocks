@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { z } from 'zod';
 import { BLOCK_ID_PREFIX } from '../core/registry.js';
 import { attributeDefaults, prepareBlock, validationOf, } from '../core/block-runtime.js';
@@ -68,6 +67,22 @@ function checkAttributes(slug, raw) {
         if (!typeMatches(definition.type, value)) {
             errors.push(`Attribute "${key}" must be a ${definition.type}.`);
         }
+        // A slide array carries objects, and an unknown key there reaches the
+        // saved content without ever being named
+        if (key === schema.slideField && Array.isArray(value)) {
+            const itemSchema = schema.slideItemSchema ?? {};
+            const itemKeys = Object.keys(itemSchema.properties ?? {});
+            value.forEach((item, index) => {
+                if (!item || typeof item !== 'object') {
+                    return;
+                }
+                for (const itemKey of Object.keys(item)) {
+                    if (!itemKeys.includes(itemKey)) {
+                        errors.push(`Attribute "${key}[${index}]" has unknown key "${itemKey}".`);
+                    }
+                }
+            });
+        }
         const allowed = schema.allowedValues?.[key];
         if (Array.isArray(allowed) &&
             typeof value === 'string' &&
@@ -85,11 +100,10 @@ function checkAttributes(slug, raw) {
             errors.push(`Effect "${value}" is not allowed for ${schema.name} (${effectKey}). Allowed: ${allowed.join(', ')}.`);
         }
     }
-    const sliderType = typeof raw.sliderType === 'string'
-        ? raw.sliderType
-        : carouselOnly
-            ? 'carousel'
-            : 'slider';
+    let sliderType = carouselOnly ? 'carousel' : 'slider';
+    if (typeof raw.sliderType === 'string') {
+        sliderType = raw.sliderType;
+    }
     const activeKey = sliderType === 'carousel' ? 'carouselEffect' : 'slideEffect';
     if (raw[activeKey] !== undefined &&
         typeof raw[activeKey] !== 'string') {
