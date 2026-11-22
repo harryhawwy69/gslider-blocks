@@ -7,7 +7,12 @@ import {
 	memo,
 	useCallback,
 } from '@wordpress/element';
-import { PanelBody, ToggleControl, BaseControl } from '@wordpress/components';
+import {
+	PanelBody,
+	ToggleControl,
+	BaseControl,
+	RangeControl,
+} from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -84,6 +89,9 @@ const Inspector = ( { attributes, setAttributes } ) => {
 		direction,
 		slideEffect,
 		carouselEffect,
+		cardsPerSlideRotate,
+		cardsPerSlideOffset,
+		cardsSlideShadows,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -1120,6 +1128,49 @@ const Inspector = ( { attributes, setAttributes } ) => {
 						value={ slideEffect }
 						onChange={ ( value ) =>
 							setAttributes( { slideEffect: value } )
+						}
+					/>
+				</PanelBody>
+			) }
+			{ sliderType === 'slider' && slideEffect === 'cards' && (
+				<PanelBody
+					title={ __( 'Cards Effect', 'gslider-blocks' ) }
+					opened={ openPanels.general === 'cards-effect' }
+					onToggle={ () => togglePanel( 'general', 'cards-effect' ) }
+				>
+					<RangeControl
+						label={ __( 'Per Slide Rotate', 'gslider-blocks' ) }
+						help={ __(
+							'Rotation of each card behind the active one, in degrees.',
+							'gslider-blocks'
+						) }
+						value={ cardsPerSlideRotate }
+						min={ 0 }
+						max={ 15 }
+						step={ 1 }
+						onChange={ ( value ) =>
+							setAttributes( { cardsPerSlideRotate: value } )
+						}
+					/>
+					<RangeControl
+						label={ __( 'Per Slide Offset', 'gslider-blocks' ) }
+						help={ __(
+							'Distance of each card behind the active one, in pixels.',
+							'gslider-blocks'
+						) }
+						value={ cardsPerSlideOffset }
+						min={ 2 }
+						max={ 30 }
+						step={ 1 }
+						onChange={ ( value ) =>
+							setAttributes( { cardsPerSlideOffset: value } )
+						}
+					/>
+					<ToggleControl
+						label={ __( 'Slide Shadows', 'gslider-blocks' ) }
+						checked={ !! cardsSlideShadows }
+						onChange={ ( value ) =>
+							setAttributes( { cardsSlideShadows: value } )
 						}
 					/>
 				</PanelBody>

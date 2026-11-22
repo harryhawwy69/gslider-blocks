@@ -538,6 +538,14 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 
 			$is_vertical = 'vertical' === ( $attrs['direction'] ?? 'horizontal' );
 
+			if ( $uses_slider_type && 'cards' === $slide_effect ) {
+				$config['cardsEffect'] = [
+					'perSlideRotate' => (int) ( $attrs['cardsPerSlideRotate'] ?? 2 ),
+					'perSlideOffset' => (int) ( $attrs['cardsPerSlideOffset'] ?? 8 ),
+					'slideShadows'   => ! empty( $attrs['cardsSlideShadows'] ),
+				];
+			}
+
 			if ( $uses_slider_type && 'creative' === $slide_effect ) {
 				$config['creativeEffect'] = [
 					'prev' => [

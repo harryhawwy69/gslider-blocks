@@ -85,6 +85,20 @@ const attributes = {
 		type: 'boolean',
 		default: true,
 	},
+	/** Start Cards effect */
+	cardsPerSlideRotate: {
+		type: 'number',
+		default: 2,
+	},
+	cardsPerSlideOffset: {
+		type: 'number',
+		default: 8,
+	},
+	cardsSlideShadows: {
+		type: 'boolean',
+		default: true,
+	},
+	/** End Cards effect */
 	enableGrabCursor: {
 		type: 'boolean',
 		default: false,

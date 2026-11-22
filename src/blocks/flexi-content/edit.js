@@ -46,6 +46,9 @@ export default function Edit( {
 		direction,
 		carouselEffect,
 		slideEffect,
+		cardsPerSlideRotate,
+		cardsPerSlideOffset,
+		cardsSlideShadows,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -309,6 +312,13 @@ export default function Edit( {
 			observer: true,
 			observeParents: true,
 			resizeObserver: true,
+			...( slideEffect === 'cards' && {
+				cardsEffect: {
+					perSlideRotate: cardsPerSlideRotate,
+					perSlideOffset: cardsPerSlideOffset,
+					slideShadows: cardsSlideShadows,
+				},
+			} ),
 			...( slideEffect === 'creative' && {
 				creativeEffect: {
 					prev: { shadow: true, translate: [ 0, 0, -400 ] },

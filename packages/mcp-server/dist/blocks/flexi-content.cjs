@@ -162,6 +162,20 @@ var attributes = {
     type: "boolean",
     default: true
   },
+  /** Start Cards effect */
+  cardsPerSlideRotate: {
+    type: "number",
+    default: 2
+  },
+  cardsPerSlideOffset: {
+    type: "number",
+    default: 8
+  },
+  cardsSlideShadows: {
+    type: "boolean",
+    default: true
+  },
+  /** End Cards effect */
   enableGrabCursor: {
     type: "boolean",
     default: false
@@ -2213,6 +2227,9 @@ function Save({ attributes: attributes2 }) {
     direction,
     carouselEffect,
     slideEffect,
+    cardsPerSlideRotate,
+    cardsPerSlideOffset,
+    cardsSlideShadows,
     mousewheelControl,
     keyboardNavigation,
     paginationType,
@@ -2380,6 +2397,14 @@ function Save({ attributes: attributes2 }) {
       type: paginationType,
       dynamicBullets: paginationType === "bullets" ? dynamicBullets : false,
       clickable: true
+    },
+    // Cards effect settings, serialized only while cards is the effect
+    ...slideEffect === "cards" && {
+      cardsEffect: {
+        perSlideRotate: cardsPerSlideRotate,
+        perSlideOffset: cardsPerSlideOffset,
+        slideShadows: cardsSlideShadows
+      }
     },
     // Creative effect settings if needed
     ...slideEffect === "creative" && {

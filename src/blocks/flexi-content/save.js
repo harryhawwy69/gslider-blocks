@@ -22,6 +22,9 @@ export default function Save( { attributes } ) {
 		direction,
 		carouselEffect,
 		slideEffect,
+		cardsPerSlideRotate,
+		cardsPerSlideOffset,
+		cardsSlideShadows,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -279,6 +282,15 @@ export default function Save( { attributes } ) {
 				paginationType === 'bullets' ? dynamicBullets : false,
 			clickable: true,
 		},
+
+		// Cards effect settings, serialized only while cards is the effect
+		...( slideEffect === 'cards' && {
+			cardsEffect: {
+				perSlideRotate: cardsPerSlideRotate,
+				perSlideOffset: cardsPerSlideOffset,
+				slideShadows: cardsSlideShadows,
+			},
+		} ),
 
 		// Creative effect settings if needed
 		...( slideEffect === 'creative' && {

@@ -16,14 +16,15 @@
       "fade",
       "coverflow",
       "flip",
-      "creative"
+      "creative",
+      "cards"
     ],
     "sliderType": [
       "slider",
       "carousel"
     ]
   },
-  "totalAttributes": 309,
+  "totalAttributes": 312,
   "slideItemSchema": {
     "type": "childBlock",
     "name": "gslider-blocks/flexi-content-item",
@@ -221,7 +222,8 @@
       "fade",
       "coverflow",
       "flip",
-      "creative"
+      "creative",
+      "cards"
     ],
     "sliderType": [
       "slider",
@@ -326,6 +328,18 @@
       }
     },
     "infiniteLoop": {
+      "type": "boolean",
+      "default": true
+    },
+    "cardsPerSlideRotate": {
+      "type": "number",
+      "default": 2
+    },
+    "cardsPerSlideOffset": {
+      "type": "number",
+      "default": 8
+    },
+    "cardsSlideShadows": {
       "type": "boolean",
       "default": true
     },
