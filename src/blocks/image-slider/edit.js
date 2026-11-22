@@ -1,5 +1,5 @@
 /* global refreshFsLightbox */
-/* eslint-disable no-unused-vars, react-hooks/exhaustive-deps, no-shadow, object-shorthand, jsdoc/require-param, no-nested-ternary, import/no-unresolved */
+/* eslint-disable no-unused-vars, react-hooks/exhaustive-deps, no-shadow, object-shorthand, jsdoc/require-param, import/no-unresolved */
 import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
@@ -47,6 +47,26 @@ const mapMedia = ( m ) => ( {
 	videoExternalUrl: '',
 	videoExternalId: '',
 } );
+
+/**
+ * Return the toolbar label of the link and tooltip button for one image.
+ *
+ * The three labels say which of the two the press will edit, so the
+ * combination has one of its own rather than a nested conditional in the
+ * toolbar's JSX.
+ * @param {boolean} hasLink    Whether the image carries a link.
+ * @param {boolean} hasTooltip Whether the image carries a tooltip.
+ * @return {string} The translated label to show.
+ */
+const linkTooltipLabel = ( hasLink, hasTooltip ) => {
+	if ( hasLink && hasTooltip ) {
+		return __( 'Edit Link & Tooltip', 'gslider-blocks' );
+	}
+	if ( hasLink ) {
+		return __( 'Edit Link', 'gslider-blocks' );
+	}
+	return __( 'Edit Tooltip', 'gslider-blocks' );
+};
 
 /** Only a strict ID match is stored, so the ID is safe to put in an embed URL later */
 const VIDEO_ID_PATTERNS = {
@@ -519,6 +539,61 @@ export default function Edit( {
 		);
 	};
 
+	/**
+	 * Render the media of one slide: an embed poster, a lightbox link, or the image.
+	 *
+	 * The three cases used to be one nested conditional in the slide's JSX.
+	 * @param {Object} item The slide's own item.
+	 * @return {JSX.Element} The element to show for it.
+	 */
+	const renderItemMedia = ( item ) => {
+		if ( isExternalVideo( item ) ) {
+			return (
+				<div className="gslider-embed-video gslider-embed-video-editor">
+					<img
+						className="gslider-embed-video-poster"
+						src={ item.url }
+						alt={
+							item.alt || `video ${ images.indexOf( item ) + 1 }`
+						}
+					/>
+					<span
+						className="gslider-embed-video-play"
+						aria-hidden="true"
+					></span>
+				</div>
+			);
+		}
+
+		if ( enableLightbox?.[ deviceType ] ) {
+			return (
+				<a
+					href={ item.url }
+					data-fslightbox={ blockId }
+					data-caption={ item.caption }
+					className="gslider-image-link"
+					onClick={ ( e ) => e.preventDefault() }
+				>
+					<img
+						src={ item.url }
+						alt={
+							item.alt || `image ${ images.indexOf( item ) + 1 }`
+						}
+						loading={ enableLazyLoad ? 'lazy' : undefined }
+					/>
+				</a>
+			);
+		}
+
+		return (
+			<img
+				src={ item.url }
+				alt={ item.alt || `image ${ images.indexOf( item ) + 1 }` }
+				loading={ enableLazyLoad ? 'lazy' : undefined }
+			/>
+		);
+	};
+
 	return (
 		<>
 			{ isSelected && (
@@ -635,74 +710,7 @@ export default function Edit( {
 												}
 											} }
 										>
-											{ isExternalVideo( item ) ? (
-												<div className="gslider-embed-video gslider-embed-video-editor">
-													<img
-														className="gslider-embed-video-poster"
-														src={ item.url }
-														alt={
-															item.alt ||
-															`video ${
-																images.indexOf(
-																	item
-																) + 1
-															}`
-														}
-													/>
-													<span
-														className="gslider-embed-video-play"
-														aria-hidden="true"
-													></span>
-												</div>
-											) : enableLightbox?.[
-													deviceType
-											  ] ? (
-												<a
-													href={ item.url }
-													data-fslightbox={ blockId }
-													data-caption={
-														item.caption
-													}
-													className="gslider-image-link"
-													onClick={ ( e ) =>
-														e.preventDefault()
-													}
-												>
-													<img
-														src={ item.url }
-														alt={
-															item.alt ||
-															`image ${
-																images.indexOf(
-																	item
-																) + 1
-															}`
-														}
-														loading={
-															enableLazyLoad
-																? 'lazy'
-																: undefined
-														}
-													/>
-												</a>
-											) : (
-												<img
-													src={ item.url }
-													alt={
-														item.alt ||
-														`image ${
-															images.indexOf(
-																item
-															) + 1
-														}`
-													}
-													loading={
-														enableLazyLoad
-															? 'lazy'
-															: undefined
-													}
-												/>
-											) }
+											{ renderItemMedia( item ) }
 											{ showTooltip &&
 												item.tooltipText && (
 													<div className="gslider-image-tooltip">
@@ -862,23 +870,10 @@ export default function Edit( {
 															item.tooltipText
 														)
 													}
-													label={
-														enableimageLinks &&
+													label={ linkTooltipLabel(
+														enableimageLinks,
 														showTooltip
-															? __(
-																	'Edit Link & Tooltip',
-																	'gslider-blocks'
-															  )
-															: enableimageLinks
-															? __(
-																	'Edit Link',
-																	'gslider-blocks'
-															  )
-															: __(
-																	'Edit Tooltip',
-																	'gslider-blocks'
-															  )
-													}
+													) }
 													showTooltip={ true }
 												/>
 											) }
