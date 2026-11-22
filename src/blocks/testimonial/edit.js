@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, react-hooks/exhaustive-deps, object-shorthand, jsdoc/require-param, no-nested-ternary */
+/* eslint-disable no-unused-vars, react-hooks/exhaustive-deps, object-shorthand, jsdoc/require-param */
 import { __ } from '@wordpress/i18n';
 import {
 	RichText,
