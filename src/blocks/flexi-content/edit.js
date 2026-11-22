@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, react-hooks/exhaustive-deps */
 import { __ } from '@wordpress/i18n';
+import { creativeEffectFor } from '@Constants/creativePresets';
 import { createBlock } from '@wordpress/blocks';
 import {
 	useBlockProps,
@@ -46,6 +47,7 @@ export default function Edit( {
 		direction,
 		carouselEffect,
 		slideEffect,
+		creativePreset,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -310,15 +312,10 @@ export default function Edit( {
 			observeParents: true,
 			resizeObserver: true,
 			...( slideEffect === 'creative' && {
-				creativeEffect: {
-					prev: { shadow: true, translate: [ 0, 0, -400 ] },
-					next: {
-						translate:
-							direction === 'vertical'
-								? [ 0, '100%', 0 ]
-								: [ '100%', 0, 0 ],
-					},
-				},
+				creativeEffect: creativeEffectFor(
+					creativePreset,
+					direction === 'vertical'
+				),
 			} ),
 		};
 

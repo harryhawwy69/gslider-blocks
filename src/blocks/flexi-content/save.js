@@ -1,6 +1,7 @@
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import renderSVG from '@Components/icon-picker/components/icon-picker/controls/renderIcon';
 import { renderShapeDivider } from '@Constants/shapeDividers';
+import { creativeEffectFor } from '@Constants/creativePresets';
 
 export default function Save( { attributes } ) {
 	const {
@@ -22,6 +23,7 @@ export default function Save( { attributes } ) {
 		direction,
 		carouselEffect,
 		slideEffect,
+		creativePreset,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -282,15 +284,10 @@ export default function Save( { attributes } ) {
 
 		// Creative effect settings if needed
 		...( slideEffect === 'creative' && {
-			creativeEffect: {
-				prev: { shadow: true, translate: [ 0, 0, -400 ] },
-				next: {
-					translate:
-						direction === 'vertical'
-							? [ 0, '100%', 0 ]
-							: [ '100%', 0, 0 ],
-				},
-			},
+			creativeEffect: creativeEffectFor(
+				creativePreset,
+				direction === 'vertical'
+			),
 		} ),
 	} );
 

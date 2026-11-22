@@ -162,6 +162,10 @@ var attributes = {
     type: "boolean",
     default: true
   },
+  creativePreset: {
+    type: "string",
+    default: "stack"
+  },
   enableGrabCursor: {
     type: "boolean",
     default: false
@@ -2191,6 +2195,71 @@ var renderShapeDivider = (position, shape) => SHAPE_DIVIDER_PATHS[shape] ? /* @_
   }
 ) : null;
 
+// ../../src/constants/creativePresets.js
+var import_i18n3 = require("@wordpress/i18n");
+var CREATIVE_PRESET_OPTIONS = [
+  { label: (0, import_i18n3.__)("3D Stack", "gslider-blocks"), value: "stack" },
+  { label: (0, import_i18n3.__)("Dynamic Tilt", "gslider-blocks"), value: "tilt" },
+  { label: (0, import_i18n3.__)("Depth Flip", "gslider-blocks"), value: "depth" },
+  { label: (0, import_i18n3.__)("Minimal Shift", "gslider-blocks"), value: "shift" }
+];
+var CREATIVE_PRESETS = {
+  stack: {
+    prev: { shadow: true, translate: ["-120%", 0, -500] },
+    next: { shadow: true, translate: ["120%", 0, -500] }
+  },
+  tilt: {
+    prev: {
+      shadow: true,
+      translate: ["-20%", 0, -1],
+      rotate: [0, 0, -10]
+    },
+    next: {
+      shadow: true,
+      translate: ["100%", 0, 0],
+      rotate: [0, 0, 0]
+    }
+  },
+  depth: {
+    prev: {
+      shadow: true,
+      translate: [0, 0, -800],
+      rotate: [180, 0, 0]
+    },
+    next: {
+      shadow: true,
+      translate: [0, 0, -800],
+      rotate: [-180, 0, 0]
+    }
+  },
+  shift: {
+    prev: { shadow: false, translate: ["-20%", 0, -200], opacity: 0 },
+    next: { shadow: false, translate: ["100%", 0, 0], opacity: 1 }
+  }
+};
+var creativeEffectFor = (preset, vertical) => {
+  const chosen = CREATIVE_PRESETS[preset] || CREATIVE_PRESETS.stack;
+  const swapped = vertical ? {
+    prev: {
+      ...chosen.prev,
+      translate: [
+        0,
+        chosen.prev.translate[0],
+        chosen.prev.translate[2]
+      ]
+    },
+    next: {
+      ...chosen.next,
+      translate: [
+        0,
+        chosen.next.translate[0],
+        chosen.next.translate[2]
+      ]
+    }
+  } : chosen;
+  return swapped;
+};
+
 // ../../src/blocks/flexi-content/save.js
 var import_jsx_runtime3 = require("react/jsx-runtime");
 function Save({ attributes: attributes2 }) {
@@ -2213,6 +2282,7 @@ function Save({ attributes: attributes2 }) {
     direction,
     carouselEffect,
     slideEffect,
+    creativePreset,
     mousewheelControl,
     keyboardNavigation,
     paginationType,
@@ -2383,12 +2453,10 @@ function Save({ attributes: attributes2 }) {
     },
     // Creative effect settings if needed
     ...slideEffect === "creative" && {
-      creativeEffect: {
-        prev: { shadow: true, translate: [0, 0, -400] },
-        next: {
-          translate: direction === "vertical" ? [0, "100%", 0] : ["100%", 0, 0]
-        }
-      }
+      creativeEffect: creativeEffectFor(
+        creativePreset,
+        direction === "vertical"
+      )
     }
   });
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(

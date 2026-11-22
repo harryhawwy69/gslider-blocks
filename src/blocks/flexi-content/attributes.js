@@ -85,6 +85,10 @@ const attributes = {
 		type: 'boolean',
 		default: true,
 	},
+	creativePreset: {
+		type: 'string',
+		default: 'stack',
+	},
 	enableGrabCursor: {
 		type: 'boolean',
 		default: false,

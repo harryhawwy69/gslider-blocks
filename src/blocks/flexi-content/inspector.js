@@ -12,6 +12,7 @@ import { PanelBody, ToggleControl, BaseControl } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
+import { CREATIVE_PRESET_OPTIONS } from '@Constants/creativePresets';
 import {
 	TEXT_ALIGN,
 	ARROW_ICON_ALIGN,
@@ -84,6 +85,7 @@ const Inspector = ( { attributes, setAttributes } ) => {
 		direction,
 		slideEffect,
 		carouselEffect,
+		creativePreset,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -1122,6 +1124,16 @@ const Inspector = ( { attributes, setAttributes } ) => {
 							setAttributes( { slideEffect: value } )
 						}
 					/>
+					{ slideEffect === 'creative' && (
+						<SelectControls
+							label={ __( 'Creative Preset', 'gslider-blocks' ) }
+							options={ CREATIVE_PRESET_OPTIONS }
+							value={ creativePreset }
+							onChange={ ( value ) =>
+								setAttributes( { creativePreset: value } )
+							}
+						/>
+					) }
 				</PanelBody>
 			) }
 

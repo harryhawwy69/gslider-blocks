@@ -332,6 +332,50 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 		 * @param array  $attrs      Attributes from the block comment.
 		 * @return array Attributes with every omitted default filled in.
 		 */
+		/**
+		 * Return the Swiper creativeEffect of a preset, travelled vertically if asked.
+		 *
+		 * Mirrors `src/constants/creativePresets.js`: `stack` is the
+		 * configuration the block shipped before the presets existed.
+		 *
+		 * @param string $preset   Preset name; an unknown one answers `stack`.
+		 * @param bool   $vertical Whether the slider direction is vertical.
+		 * @return array
+		 */
+		private static function creative_effect( string $preset, bool $vertical ): array {
+			$presets = [
+				'stack' => [
+					'prev' => [ 'shadow' => true, 'translate' => [ '-120%', 0, -500 ] ],
+					'next' => [ 'shadow' => true, 'translate' => [ '120%', 0, -500 ] ],
+				],
+				'tilt'  => [
+					'prev' => [ 'shadow' => true, 'translate' => [ '-20%', 0, -1 ], 'rotate' => [ 0, 0, -10 ] ],
+					'next' => [ 'shadow' => true, 'translate' => [ '100%', 0, 0 ], 'rotate' => [ 0, 0, 0 ] ],
+				],
+				'depth' => [
+					'prev' => [ 'shadow' => true, 'translate' => [ 0, 0, -800 ], 'rotate' => [ 180, 0, 0 ] ],
+					'next' => [ 'shadow' => true, 'translate' => [ 0, 0, -800 ], 'rotate' => [ -180, 0, 0 ] ],
+				],
+				'shift' => [
+					'prev' => [ 'shadow' => false, 'translate' => [ '-20%', 0, -200 ], 'opacity' => 0 ],
+					'next' => [ 'shadow' => false, 'translate' => [ '100%', 0, 0 ], 'opacity' => 1 ],
+				],
+			];
+
+			$chosen = $presets[ $preset ] ?? $presets['stack'];
+
+			if ( ! $vertical ) {
+				return $chosen;
+			}
+
+			foreach ( [ 'prev', 'next' ] as $side ) {
+				$travel = $chosen[ $side ]['translate'];
+				$chosen[ $side ]['translate'] = [ 0, $travel[0], $travel[2] ];
+			}
+
+			return $chosen;
+		}
+
 		public static function with_attribute_defaults( string $block_name, array $attrs ): array {
 			return $attrs + self::attribute_defaults( $block_name );
 		}
@@ -539,15 +583,10 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 			$is_vertical = 'vertical' === ( $attrs['direction'] ?? 'horizontal' );
 
 			if ( $uses_slider_type && 'creative' === $slide_effect ) {
-				$config['creativeEffect'] = [
-					'prev' => [
-						'shadow'    => true,
-						'translate' => [ 0, 0, -400 ],
-					],
-					'next' => [
-						'translate' => $is_vertical ? [ 0, '100%', 0 ] : [ '100%', 0, 0 ],
-					],
-				];
+				$config['creativeEffect'] = self::creative_effect(
+					(string) ( $attrs['creativePreset'] ?? 'stack' ),
+					$is_vertical
+				);
 			}
 
 			if ( $is_vertical ) {
