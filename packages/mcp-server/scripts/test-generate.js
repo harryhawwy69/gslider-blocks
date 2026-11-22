@@ -743,9 +743,7 @@ for ( const slug of slugs ) {
 	const bareReport = JSON.parse( bare.content[ 0 ].text );
 	if (
 		bare.content[ 0 ].text.includes( 'attribute JSON' ) ||
-		bareReport.errors.some( ( item ) =>
-			item.includes( 'attribute JSON' )
-		)
+		bareReport.errors.some( ( item ) => item.includes( 'attribute JSON' ) )
 	) {
 		fail(
 			`default-only ${ slug } markup was not read as a block with no attributes: ${ bare.content[ 0 ].text }`
@@ -755,8 +753,7 @@ for ( const slug of slugs ) {
 console.log( 'ok a comment with no JSON reads as defaults' );
 
 const nextBlock = await handleValidateBlock( {
-	markup:
-		'<!-- wp:gslider-blocks/base /-->\n<!-- wp:paragraph {"x":1} --><p>x</p><!-- /wp:paragraph -->',
+	markup: '<!-- wp:gslider-blocks/base /-->\n<!-- wp:paragraph {"x":1} --><p>x</p><!-- /wp:paragraph -->',
 } );
 const nextBlockText = nextBlock.content[ 0 ].text;
 if ( nextBlockText.includes( 'Unknown attribute "x"' ) ) {
@@ -775,9 +772,7 @@ if (
 	! malformedText.includes( 'malformed attribute JSON' ) ||
 	malformedText.includes( ' at ' )
 ) {
-	fail(
-		`malformed JSON was not reported as itself: ${ malformedText }`
-	);
+	fail( `malformed JSON was not reported as itself: ${ malformedText }` );
 }
 console.log( 'ok malformed JSON is named as itself' );
 
