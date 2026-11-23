@@ -116,6 +116,8 @@ const Inspector = ( {
 		reverseDirection,
 		slideEffect,
 		carouselEffect,
+		enableSchemaReview,
+		schemaItemReviewed,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -6401,6 +6403,43 @@ const Inspector = ( {
 								globalBoxShadowHoverCssValue: value,
 							} )
 						}
+					/>
+				) }
+			</PanelBody>
+
+			<PanelBody
+				title={ __( 'SEO & Schema', 'gslider-blocks' ) }
+				opened={ openPanels.advanced === 'seo-schema' }
+				onToggle={ () => togglePanel( 'advanced', 'seo-schema' ) }
+			>
+				<SwitcherControl
+					label={ __( 'Review Structured Data', 'gslider-blocks' ) }
+					options={ [
+						{
+							label: __( 'Off', 'gslider-blocks' ),
+							value: false,
+						},
+						{
+							label: __( 'On', 'gslider-blocks' ),
+							value: true,
+						},
+					] }
+					value={ enableSchemaReview }
+					onChange={ ( value ) =>
+						setAttributes( { enableSchemaReview: value } )
+					}
+				/>
+				{ enableSchemaReview && (
+					<InputControls
+						label={ __( 'Reviewed item name', 'gslider-blocks' ) }
+						value={ schemaItemReviewed }
+						onChangeValue={ ( value ) =>
+							setAttributes( { schemaItemReviewed: value } )
+						}
+						helpText={ __(
+							'The product, service or organisation the reviews are about.',
+							'gslider-blocks'
+						) }
 					/>
 				) }
 			</PanelBody>

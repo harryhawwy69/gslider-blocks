@@ -1941,4 +1941,6 @@ return [
 	'globalBoxShadowCssValue' => '',
 	'globalBoxShadowHoverValues' => [],
 	'globalBoxShadowHoverCssValue' => '',
+	'enableSchemaReview' => false,
+	'schemaItemReviewed' => '',
 ];

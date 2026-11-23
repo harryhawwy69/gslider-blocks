@@ -3978,8 +3978,16 @@ var attributes = {
   globalBoxShadowHoverCssValue: {
     type: "string",
     default: ""
-  }
+  },
   /** End Global Border */
+  enableSchemaReview: {
+    type: "boolean",
+    default: false
+  },
+  schemaItemReviewed: {
+    type: "string",
+    default: ""
+  }
 };
 var attributes_default = attributes;
 
@@ -4166,6 +4174,8 @@ function Save({ attributes: attributes2 }) {
     reverseDirection,
     carouselEffect,
     slideEffect,
+    enableSchemaReview,
+    schemaItemReviewed,
     mousewheelControl,
     keyboardNavigation,
     paginationType,
@@ -4222,6 +4232,37 @@ function Save({ attributes: attributes2 }) {
     Desktop: !!showPagination?.Desktop
   };
   const anyPaginationEnabled = paginationEnabled.Mobile || paginationEnabled.Tablet || paginationEnabled.Desktop;
+  const schemaReviews = enableSchemaReview ? sliderItems.map((item) => {
+    const rating = Math.min(
+      5,
+      parseFloat(item.ratingNumber || 0)
+    );
+    if (!rating || !item.authorName) {
+      return null;
+    }
+    return {
+      "@type": "Review",
+      itemReviewed: {
+        "@type": "Organization",
+        ...schemaItemReviewed ? { name: schemaItemReviewed } : {}
+      },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: rating,
+        bestRating: 5,
+        worstRating: 1
+      },
+      author: {
+        "@type": "Person",
+        name: item.authorName
+      },
+      ...item.testimonialText ? { reviewBody: item.testimonialText } : {}
+    };
+  }).filter(Boolean) : [];
+  const schemaScript = schemaReviews.length > 0 ? JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": schemaReviews
+  }).replace(/</g, "\\u003c") : "";
   const showAutoplayProgress = autoplay && (enableAutoplayProgress?.Desktop || enableAutoplayProgress?.Tablet || enableAutoplayProgress?.Mobile);
   const swiperSettings = JSON.stringify({
     effect: sliderType === "carousel" ? carouselEffect : slideEffect,
@@ -4715,7 +4756,8 @@ function Save({ attributes: attributes2 }) {
         className: `swiper-pagination swiper-pagination-testimonial-slider${blockId ? ` swiper-pagination-${blockId}` : ""}`,
         "aria-label": "Carousel pagination"
       }
-    ) })
+    ) }),
+    schemaScript && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("script", { type: "application/ld+json", children: schemaScript })
   ] });
 }
 

@@ -29,6 +29,8 @@ export default function Save( { attributes } ) {
 		reverseDirection,
 		carouselEffect,
 		slideEffect,
+		enableSchemaReview,
+		schemaItemReviewed,
 		mousewheelControl,
 		keyboardNavigation,
 		paginationType,
@@ -108,6 +110,50 @@ export default function Save( { attributes } ) {
 		paginationEnabled.Desktop;
 
 	// Only output the progress bar when enabled, so markup of existing blocks stays the same
+	const schemaReviews = enableSchemaReview
+		? sliderItems
+				.map( ( item ) => {
+					const rating = Math.min(
+						5,
+						parseFloat( item.ratingNumber || 0 )
+					);
+					if ( ! rating || ! item.authorName ) {
+						return null;
+					}
+					return {
+						'@type': 'Review',
+						itemReviewed: {
+							'@type': 'Organization',
+							...( schemaItemReviewed
+								? { name: schemaItemReviewed }
+								: {} ),
+						},
+						reviewRating: {
+							'@type': 'Rating',
+							ratingValue: rating,
+							bestRating: 5,
+							worstRating: 1,
+						},
+						author: {
+							'@type': 'Person',
+							name: item.authorName,
+						},
+						...( item.testimonialText
+							? { reviewBody: item.testimonialText }
+							: {} ),
+					};
+				} )
+				.filter( Boolean )
+		: [];
+
+	const schemaScript =
+		schemaReviews.length > 0
+			? JSON.stringify( {
+					'@context': 'https://schema.org',
+					'@graph': schemaReviews,
+			  } ).replace( /</g, '\\u003c' )
+			: '';
+
 	const showAutoplayProgress =
 		autoplay &&
 		( enableAutoplayProgress?.Desktop ||
@@ -670,6 +716,10 @@ export default function Save( { attributes } ) {
 						aria-label="Carousel pagination"
 					></div>
 				</>
+			) }
+
+			{ schemaScript && (
+				<script type="application/ld+json">{ schemaScript }</script>
 			) }
 		</div>
 	);

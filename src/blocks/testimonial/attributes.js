@@ -3971,6 +3971,15 @@ const attributes = {
 		default: '',
 	},
 	/** End Global Border */
+
+	enableSchemaReview: {
+		type: 'boolean',
+		default: false,
+	},
+	schemaItemReviewed: {
+		type: 'string',
+		default: '',
+	},
 };
 
 export default attributes;
