@@ -776,6 +776,118 @@ if (
 }
 console.log( 'ok malformed JSON is named as itself' );
 
+// The slide array is built from `slides`; a raw override would skip the item
+// checks the generator makes
+for ( const [ slug, field ] of [
+	[ 'base', 'sliderItems' ],
+	[ 'testimonial', 'sliderItems' ],
+	[ 'image-slider', 'images' ],
+	[ 'logo-carousel', 'logos' ],
+] ) {
+	const rejected = await handleGenerateBlock( {
+		blockSlug: slug,
+		slides: [ slideFor( slug ) ],
+		attributes: { [ field ]: [] },
+	} );
+	if (
+		! rejected.isError ||
+		! rejected.content[ 0 ].text.includes( 'pass slides instead' )
+	) {
+		fail(
+			`${ slug } accepted an override of ${ field }: ${ rejected.content[ 0 ].text }`
+		);
+	}
+}
+console.log( 'ok a raw slide-array override is refused' );
+
+const itemKeyReport = JSON.parse(
+	(
+		await handleValidateBlock( {
+			blockSlug: 'image-slider',
+			attributes: {
+				blockId: 'gslider-image-slider-abcd1234',
+				images: [ { url: 'https://example.com/a.jpg', bogus: 1 } ],
+			},
+		} )
+	).content[ 0 ].text
+);
+if (
+	! itemKeyReport.errors.some( ( item ) =>
+		item.includes( 'has unknown key "bogus"' )
+	)
+) {
+	fail(
+		`an unknown key inside a slide item was not reported: ${ JSON.stringify(
+			itemKeyReport.errors
+		) }`
+	);
+}
+console.log( 'ok an unknown key inside a slide item is reported' );
+
+// flexi-content validation walks the slide tree, not only the outer block
+const flexiGenerated = await handleGenerateBlock( {
+	blockSlug: 'flexi-content',
+	slides: [ { blocks: [ { type: 'paragraph', text: 'Hello' } ] } ],
+} );
+const flexiMarkup = JSON.parse( flexiGenerated.content[ 0 ].text ).markup;
+
+const cleanFlexi = JSON.parse(
+	( await handleValidateBlock( { markup: flexiMarkup } ) ).content[ 0 ].text
+);
+if ( ! cleanFlexi.isValid || cleanFlexi.errors.length !== 0 ) {
+	fail(
+		`generated flexi-content markup did not validate: ${ JSON.stringify(
+			cleanFlexi.errors
+		) }`
+	);
+}
+console.log( 'ok generated flexi-content validates' );
+
+const badItemId = flexiMarkup.replace(
+	/gslider-flexi-content-item-[a-z0-9]{8}/,
+	'gslider-flexi-content-item-bad'
+);
+const badItemReport = JSON.parse(
+	( await handleValidateBlock( { markup: badItemId } ) ).content[ 0 ].text
+);
+if (
+	badItemReport.isValid ||
+	! badItemReport.errors.some(
+		( item ) =>
+			item.startsWith( 'block.innerBlocks[0]:' ) &&
+			item.includes( 'blockId' )
+	)
+) {
+	fail(
+		`an invalid slide blockId was not reported with its path: ${ JSON.stringify(
+			badItemReport.errors
+		) }`
+	);
+}
+console.log( 'ok an invalid slide blockId is reported with its path' );
+
+const openEnd = flexiMarkup.indexOf( '-->' ) + 3;
+const strayChild =
+	flexiMarkup.slice( 0, openEnd ) +
+	'<!-- wp:paragraph --><p>x</p><!-- /wp:paragraph -->' +
+	flexiMarkup.slice( openEnd );
+const strayReport = JSON.parse(
+	( await handleValidateBlock( { markup: strayChild } ) ).content[ 0 ].text
+);
+if (
+	strayReport.isValid ||
+	! strayReport.errors.some( ( item ) =>
+		item.includes( 'only gslider-blocks/flexi-content-item may be a slide' )
+	)
+) {
+	fail(
+		`a non-slide child of flexi-content was accepted: ${ JSON.stringify(
+			strayReport.errors
+		) }`
+	);
+}
+console.log( 'ok a non-slide child of flexi-content is refused' );
+
 if ( failed ) {
 	process.exit( 1 );
 }

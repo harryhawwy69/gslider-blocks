@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { BLOCK_ID_PREFIX } from '../core/registry.js';
-import { attributeDefaults, prepareBlock, validationOf, } from '../core/block-runtime.js';
+import { attributeDefaults, prepareBlock, } from '../core/block-runtime.js';
 import { blockNameFromMarkup, commentAttributes } from '../core/markup.js';
+import { validationIssues } from '../core/block-runtime.js';
 import { GENERATABLE_SLUGS } from './generate-block.js';
 const validateInputZod = z
     .object({
@@ -67,6 +68,22 @@ function checkAttributes(slug, raw) {
         if (!typeMatches(definition.type, value)) {
             errors.push(`Attribute "${key}" must be a ${definition.type}.`);
         }
+        // A slide array carries objects, and an unknown key there reaches the
+        // saved content without ever being named
+        if (key === schema.slideField && Array.isArray(value)) {
+            const itemSchema = schema.slideItemSchema ?? {};
+            const itemKeys = Object.keys(itemSchema.properties ?? {});
+            value.forEach((item, index) => {
+                if (!item || typeof item !== 'object') {
+                    return;
+                }
+                for (const itemKey of Object.keys(item)) {
+                    if (!itemKeys.includes(itemKey)) {
+                        errors.push(`Attribute "${key}[${index}]" has unknown key "${itemKey}".`);
+                    }
+                }
+            });
+        }
         const allowed = schema.allowedValues?.[key];
         if (Array.isArray(allowed) &&
             typeof value === 'string' &&
@@ -112,6 +129,63 @@ function styleWarning(slug, raw) {
     }
     return null;
 }
+/**
+ * Returns the faults of one flexi-content-item's attributes.
+ *
+ * Only the attributes the item declares are read: the parsed block also
+ * carries core attributes such as `className`, which are not the schema's.
+ * @param raw
+ */
+function checkItemAttributes(raw) {
+    const schema = prepareBlock('flexi-content-item').schema;
+    const known = {};
+    for (const [key, value] of Object.entries(raw)) {
+        if (schema.attributes[key]) {
+            known[key] = value;
+        }
+    }
+    return checkAttributes('flexi-content-item', known);
+}
+/**
+ * The core blocks the generator writes inside a slide.
+ */
+const SLIDE_CONTENT_BLOCKS = [
+    'core/paragraph',
+    'core/heading',
+    'core/image',
+    'core/buttons',
+    'core/button',
+];
+/**
+ * Returns the faults of a flexi-content slide tree, each with its path.
+ *
+ * Only `flexi-content-item` may sit directly under `flexi-content`, each
+ * slide's own attributes are checked as its child block is, and a slide holds
+ * only the core blocks the generator writes.
+ * @param block
+ * @param path
+ */
+function innerBlockErrors(block, path = 'block') {
+    const current = block;
+    const errors = [];
+    for (const [index, child] of (current.innerBlocks ?? []).entries()) {
+        const childPath = `${path}.innerBlocks[${index}]`;
+        const item = child;
+        if (item.name !== 'gslider-blocks/flexi-content-item') {
+            errors.push(`${childPath}: only gslider-blocks/flexi-content-item may be a slide of flexi-content.`);
+            continue;
+        }
+        errors.push(...checkItemAttributes(item.attributes ?? {}).map((error) => `${childPath}: ${error}`));
+        for (const [inner, content] of (item.innerBlocks ?? []).entries()) {
+            const contentPath = `${childPath}.innerBlocks[${inner}]`;
+            const name = content.name ?? '';
+            if (!SLIDE_CONTENT_BLOCKS.includes(name)) {
+                errors.push(`${contentPath}: ${name} is not one of the blocks a slide holds (${SLIDE_CONTENT_BLOCKS.join(', ')}).`);
+            }
+        }
+    }
+    return errors;
+}
 function validate(input) {
     if (input.markup && (input.blockSlug || input.attributes)) {
         throw new Error('Pass markup, or blockSlug with attributes, not both.');
@@ -130,18 +204,21 @@ function validate(input) {
         const raw = commentAttributes(input.markup) ?? {};
         const errors = checkAttributes(blockSlug, raw);
         const parsed = blocks.parse(input.markup)[0];
-        const validation = parsed
-            ? validationOf(blocks.validateBlock(parsed))
-            : { isValid: false, issues: ['nothing parsed'] };
-        if (!validation.isValid) {
-            errors.push('Block markup does not match the block save output.');
+        const issues = parsed
+            ? validationIssues(blocks, parsed)
+            : ['nothing parsed'];
+        if (issues.length > 0) {
+            errors.push('Block markup does not match the block save output.', ...issues.map((issue) => String(issue)));
+        }
+        if (blockSlug === 'flexi-content') {
+            errors.push(...innerBlockErrors(parsed));
         }
         const warning = styleWarning(blockSlug, raw);
         return {
             isValid: errors.length === 0,
             errors,
             warnings: warning ? [warning] : [],
-            validationLog: validation.issues,
+            validationLog: issues,
         };
     }
     if (!input.blockSlug || !input.attributes) {
