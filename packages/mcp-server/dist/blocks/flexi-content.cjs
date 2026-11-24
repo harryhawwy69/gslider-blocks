@@ -162,6 +162,10 @@ var attributes = {
     type: "boolean",
     default: true
   },
+  centeredSlides: {
+    type: "boolean",
+    default: false
+  },
   enableGrabCursor: {
     type: "boolean",
     default: false
@@ -2205,6 +2209,7 @@ function Save({ attributes: attributes2 }) {
     enableAutoplayProgress,
     autoplayProgressPosition,
     infiniteLoop,
+    centeredSlides,
     allowTouchMove,
     enableGrabCursor,
     pauseOnHover,
@@ -2353,6 +2358,7 @@ function Save({ attributes: attributes2 }) {
     },
     // Common settings
     loop: anyMarqueeEnabled || infiniteLoop,
+    ...centeredSlides && { centeredSlides: true },
     autoplay: autoplay || anyMarqueeEnabled ? {
       pauseOnMouseEnter: anyMarqueeEnabled ? false : pauseOnHover,
       disableOnInteraction: false,

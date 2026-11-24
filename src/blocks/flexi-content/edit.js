@@ -38,6 +38,7 @@ export default function Edit( {
 		enableAutoplayProgress,
 		autoplayProgressPosition,
 		infiniteLoop,
+		centeredSlides,
 		allowTouchMove,
 		enableGrabCursor,
 		pauseOnHover,
@@ -262,6 +263,7 @@ export default function Edit( {
 					autoHeight: true,
 				} ),
 			loop: anyMarqueeEnabled || infiniteLoop,
+			...( centeredSlides && { centeredSlides: true } ),
 			autoplay: autoplay
 				? {
 						delay: autoplayDelay?.[ deviceType ] || 1000,
@@ -511,6 +513,7 @@ export default function Edit( {
 		carouselPerColumn,
 		carouselPerColumnGap,
 		infiniteLoop,
+		centeredSlides,
 		autoplay,
 		autoplayDelay,
 		enableAutoplayProgress,

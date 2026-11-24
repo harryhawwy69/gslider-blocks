@@ -14,6 +14,7 @@ export default function Save( { attributes } ) {
 		enableAutoplayProgress,
 		autoplayProgressPosition,
 		infiniteLoop,
+		centeredSlides,
 		allowTouchMove,
 		enableGrabCursor,
 		pauseOnHover,
@@ -240,6 +241,7 @@ export default function Save( { attributes } ) {
 
 		// Common settings
 		loop: anyMarqueeEnabled || infiniteLoop,
+		...( centeredSlides && { centeredSlides: true } ),
 		autoplay:
 			autoplay || anyMarqueeEnabled
 				? {

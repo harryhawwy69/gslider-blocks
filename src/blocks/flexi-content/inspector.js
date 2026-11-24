@@ -76,6 +76,7 @@ const Inspector = ( { attributes, setAttributes } ) => {
 		autoplayProgressColor,
 		autoplayProgressHeight,
 		infiniteLoop,
+		centeredSlides,
 		allowTouchMove,
 		enableGrabCursor,
 		pauseOnHover,
@@ -833,6 +834,17 @@ const Inspector = ( { attributes, setAttributes } ) => {
 					checked={ infiniteLoop }
 					onChange={ ( value ) =>
 						setAttributes( { infiniteLoop: value } )
+					}
+				/>
+				<ToggleControl
+					label={ __( 'Centered Slides', 'gslider-blocks' ) }
+					help={ __(
+						'Centers the active slide, showing partial previews of previous and next slides on the sides.',
+						'gslider-blocks'
+					) }
+					checked={ centeredSlides }
+					onChange={ ( value ) =>
+						setAttributes( { centeredSlides: value } )
 					}
 				/>
 				<ToggleControl

@@ -65,6 +65,7 @@ return [
 		'Mobile' => 3,
 	],
 	'infiniteLoop' => true,
+	'centeredSlides' => false,
 	'enableGrabCursor' => false,
 	'allowTouchMove' => true,
 	'pauseOnHover' => false,

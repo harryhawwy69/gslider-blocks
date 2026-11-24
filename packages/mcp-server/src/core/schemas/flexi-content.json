@@ -23,7 +23,7 @@
       "carousel"
     ]
   },
-  "totalAttributes": 309,
+  "totalAttributes": 310,
   "slideItemSchema": {
     "type": "childBlock",
     "name": "gslider-blocks/flexi-content-item",
@@ -328,6 +328,10 @@
     "infiniteLoop": {
       "type": "boolean",
       "default": true
+    },
+    "centeredSlides": {
+      "type": "boolean",
+      "default": false
     },
     "enableGrabCursor": {
       "type": "boolean",

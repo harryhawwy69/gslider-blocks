@@ -52,6 +52,7 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 			'paginationType',
 			'dynamicBullets',
 			'infiniteLoop',
+			'centeredSlides',
 			'allowTouchMove',
 			'enableGrabCursor',
 			'mousewheelControl',
@@ -500,6 +501,7 @@ if ( ! class_exists( BlockParser::class, false ) ) {
 			$config = [
 				'effect'         => $effect,
 				'loop'           => ! empty( $attrs['infiniteLoop'] ),
+				'centeredSlides' => ! empty( $attrs['centeredSlides'] ),
 				'allowTouchMove' => $allow_touch_move,
 				'mousewheel'     => ! empty( $attrs['mousewheelControl'] ),
 				'keyboard'       => ! empty( $attrs['keyboardNavigation'] ) ? [

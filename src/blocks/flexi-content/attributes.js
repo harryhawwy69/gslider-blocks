@@ -85,6 +85,10 @@ const attributes = {
 		type: 'boolean',
 		default: true,
 	},
+	centeredSlides: {
+		type: 'boolean',
+		default: false,
+	},
 	enableGrabCursor: {
 		type: 'boolean',
 		default: false,
