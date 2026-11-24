@@ -4830,12 +4830,12 @@ var generateBaseSliderStyle = (attributes2) => {
 
         .${blockId} .swiper-wrapper {
             ${layoutHeightSwitcher !== "adapt" ? `height: auto;` : ""}
-            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : "auto"}
+            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : ""}
         }
 
         .${blockId} .swiper-slide{
             ${layoutHeightSwitcher !== "adapt" ? `height: auto !important;` : ""}
-            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : "auto"}
+            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : ""}
         }
         
         .${blockId}.gslider-base-wrapper .gslider-content-wrapper {
@@ -5216,11 +5216,11 @@ var generateBaseSliderStyle = (attributes2) => {
             }
 
             .${blockId} .swiper-wrapper {
-                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : "auto"}
+                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : ""}
             }
 
             .${blockId} .swiper-slide{
-                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : "auto"}
+                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : ""}
             }
             
             .${blockId}.gslider-base-wrapper .gslider-content-wrapper {
@@ -5464,11 +5464,11 @@ var generateBaseSliderStyle = (attributes2) => {
             }
 
             .${blockId} .swiper-wrapper {
-                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : "auto"}
+                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : ""}
             }
 
             .${blockId} .swiper-slide{
-                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : "auto"}
+                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : ""}
             }
             
             .${blockId}.gslider-base-wrapper .gslider-content-wrapper {

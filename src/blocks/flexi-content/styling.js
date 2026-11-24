@@ -837,7 +837,7 @@ const generateFlexiContentStyle = ( attributes ) => {
             ${
 				layoutHeight.Desktop && layoutHeightSwitcher === 'fixed'
 					? `min-height: ${ layoutHeight.Desktop }${ layoutHeightUnits.Desktop };`
-					: 'auto'
+					: ''
 			}
         }
 
@@ -867,7 +867,7 @@ const generateFlexiContentStyle = ( attributes ) => {
 				layoutHeightSwitcher === 'fixed' &&
 				direction !== 'vertical'
 					? `min-height: ${ layoutHeight.Desktop }${ layoutHeightUnits.Desktop };`
-					: 'auto'
+					: ''
 			}
         }
         
@@ -1646,7 +1646,7 @@ const generateFlexiContentStyle = ( attributes ) => {
                 ${
 					layoutHeight.Tablet && layoutHeightSwitcher === 'fixed'
 						? `min-height: ${ layoutHeight.Tablet }${ layoutHeightUnits.Tablet };`
-						: 'auto'
+						: ''
 				}
             }
 
@@ -1676,7 +1676,7 @@ const generateFlexiContentStyle = ( attributes ) => {
 					layoutHeightSwitcher === 'fixed' &&
 					direction !== 'vertical'
 						? `min-height: ${ layoutHeight.Tablet }${ layoutHeightUnits.Tablet };`
-						: 'auto'
+						: ''
 				}
             }
             
@@ -2169,7 +2169,7 @@ const generateFlexiContentStyle = ( attributes ) => {
                 ${
 					layoutHeight.Mobile && layoutHeightSwitcher === 'fixed'
 						? `min-height: ${ layoutHeight.Mobile }${ layoutHeightUnits.Mobile };`
-						: 'auto'
+						: ''
 				}
             }
 
@@ -2199,7 +2199,7 @@ const generateFlexiContentStyle = ( attributes ) => {
 					layoutHeightSwitcher === 'fixed' &&
 					direction !== 'vertical'
 						? `min-height: ${ layoutHeight.Mobile }${ layoutHeightUnits.Mobile };`
-						: 'auto'
+						: ''
 				}
             }
             

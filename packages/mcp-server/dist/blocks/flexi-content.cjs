@@ -3239,7 +3239,7 @@ var generateFlexiContentStyle = (attributes2) => {
 
         .${blockId} .swiper-wrapper.gslider-swiper-wrapper {
             ${layoutHeightSwitcher !== "adapt" ? `height: auto;` : ""}
-            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : "auto"}
+            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : ""}
         }
 
         ${direction === "vertical" && Number(verticalHeight?.Desktop || layoutHeight.Desktop) > 0 && (verticalHeightUnits?.Desktop || layoutHeightUnits.Desktop) !== "%" ? `.${blockId}.gslider-flexi-content-wrapper > .swiper {
@@ -3248,7 +3248,7 @@ var generateFlexiContentStyle = (attributes2) => {
 
         .${blockId} .swiper-slide{
             ${layoutHeightSwitcher !== "adapt" && direction !== "vertical" ? `height: auto !important;` : ""}
-            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : "auto"}
+            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : ""}
         }
         
         .${blockId}.gslider-flexi-content-wrapper .gslider-content-wrapper {
@@ -3579,7 +3579,7 @@ var generateFlexiContentStyle = (attributes2) => {
 
             .${blockId} .swiper-wrapper.gslider-swiper-wrapper {
                 ${layoutHeightSwitcher !== "adapt" ? `height: auto;` : ""}
-                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : "auto"}
+                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : ""}
             }
 
             ${direction === "vertical" && Number(verticalHeight?.Tablet || layoutHeight.Tablet) > 0 && (verticalHeightUnits?.Tablet || layoutHeightUnits.Tablet) !== "%" ? `.${blockId}.gslider-flexi-content-wrapper > .swiper {
@@ -3588,7 +3588,7 @@ var generateFlexiContentStyle = (attributes2) => {
 
             .${blockId} .swiper-slide{
                 ${layoutHeightSwitcher !== "adapt" && direction !== "vertical" ? `height: auto !important;` : ""}
-                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : "auto"}
+                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : ""}
             }
             
             .${blockId}.gslider-flexi-content-wrapper .gslider-content-wrapper {
@@ -3810,7 +3810,7 @@ var generateFlexiContentStyle = (attributes2) => {
 
             .${blockId} .swiper-wrapper.gslider-swiper-wrapper {
                 ${layoutHeightSwitcher !== "adapt" ? `height: auto;` : ""}
-                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : "auto"}
+                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : ""}
             }
 
             ${direction === "vertical" && Number(verticalHeight?.Mobile || layoutHeight.Mobile) > 0 && (verticalHeightUnits?.Mobile || layoutHeightUnits.Mobile) !== "%" ? `.${blockId}.gslider-flexi-content-wrapper > .swiper {
@@ -3819,7 +3819,7 @@ var generateFlexiContentStyle = (attributes2) => {
 
             .${blockId} .swiper-slide{
                 ${layoutHeightSwitcher !== "adapt" && direction !== "vertical" ? `height: auto !important;` : ""}
-                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : "auto"}
+                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : ""}
             }
             
             .${blockId}.gslider-flexi-content-wrapper .gslider-content-wrapper {

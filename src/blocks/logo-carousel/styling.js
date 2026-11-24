@@ -964,7 +964,7 @@ const generateLogoCarouselStyle = ( attributes ) => {
             ${
 				layoutHeight.Desktop
 					? `height: ${ layoutHeight.Desktop }${ layoutHeightUnits.Desktop };`
-					: 'auto'
+					: ''
 			}
             ${
 				logoPaddingDesktopCssStyle
@@ -1844,7 +1844,7 @@ const generateLogoCarouselStyle = ( attributes ) => {
                 ${
 					layoutHeight.Tablet
 						? `height: ${ layoutHeight.Tablet }${ layoutHeightUnits.Tablet };`
-						: 'auto'
+						: ''
 				}
                 ${
 					logoPaddingTabletCssStyle
@@ -2377,7 +2377,7 @@ const generateLogoCarouselStyle = ( attributes ) => {
                 ${
 					layoutHeight.Mobile
 						? `height: ${ layoutHeight.Mobile }${ layoutHeightUnits.Mobile };`
-						: 'auto'
+						: ''
 				}
                 ${
 					logoPaddingMobileCssStyle

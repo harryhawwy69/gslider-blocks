@@ -3850,7 +3850,7 @@ var generateLogoCarouselStyle = (attributes2) => {
         }
         
         .${blockId}.gslider-logo-carousel-wrapper .gslider-logo-carousel-content-wrapper {
-            ${layoutHeight.Desktop ? `height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : "auto"}
+            ${layoutHeight.Desktop ? `height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : ""}
             ${logoPaddingDesktopCssStyle ? `padding: ${logoPaddingDesktopCssStyle};` : ""}
             ${logoDesktopBackgroundNormalStyles}
             ${logoBorder ? `border: ${logoBorder};` : ""}
@@ -4196,7 +4196,7 @@ var generateLogoCarouselStyle = (attributes2) => {
             }
 
             .${blockId}.gslider-logo-carousel-wrapper .gslider-logo-carousel-content-wrapper {
-                ${layoutHeight.Tablet ? `height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : "auto"}
+                ${layoutHeight.Tablet ? `height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : ""}
                 ${logoPaddingTabletCssStyle ? `padding: ${logoPaddingTabletCssStyle};` : ""}
                 ${logoTabletBackgroundNormalStyles}
 			    ${logoBorderTabletCssStyle ? `border-width: ${logoBorderTabletCssStyle};` : ""}  
@@ -4405,7 +4405,7 @@ var generateLogoCarouselStyle = (attributes2) => {
             }
 
             .${blockId}.gslider-logo-carousel-wrapper .gslider-logo-carousel-content-wrapper {
-                ${layoutHeight.Mobile ? `height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : "auto"}
+                ${layoutHeight.Mobile ? `height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : ""}
                 ${logoPaddingMobileCssStyle ? `padding: ${logoPaddingMobileCssStyle};` : ""}
                 ${logoMobileBackgroundNormalStyles}
                 ${logoBorderMobileCssStyle ? `border-width: ${logoBorderMobileCssStyle};` : ""}  

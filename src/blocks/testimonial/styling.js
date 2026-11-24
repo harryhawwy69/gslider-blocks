@@ -1040,7 +1040,7 @@ const generateBaseSliderStyle = ( attributes ) => {
             ${
 				layoutHeight.Desktop && layoutHeightSwitcher === 'fixed'
 					? `min-height: ${ layoutHeight.Desktop }${ layoutHeightUnits.Desktop };`
-					: 'auto'
+					: ''
 			}
         }
 
@@ -1067,7 +1067,7 @@ const generateBaseSliderStyle = ( attributes ) => {
 				layoutHeightSwitcher === 'fixed' &&
 				direction !== 'vertical'
 					? `min-height: ${ layoutHeight.Desktop }${ layoutHeightUnits.Desktop };`
-					: 'auto'
+					: ''
 			}
         }
         
@@ -2527,7 +2527,7 @@ const generateBaseSliderStyle = ( attributes ) => {
                 ${
 					layoutHeight.Tablet && layoutHeightSwitcher === 'fixed'
 						? `min-height: ${ layoutHeight.Tablet }${ layoutHeightUnits.Tablet };`
-						: 'auto'
+						: ''
 				}
             }
 
@@ -2549,7 +2549,7 @@ const generateBaseSliderStyle = ( attributes ) => {
 					layoutHeightSwitcher === 'fixed' &&
 					direction !== 'vertical'
 						? `min-height: ${ layoutHeight.Tablet }${ layoutHeightUnits.Tablet };`
-						: 'auto'
+						: ''
 				}
             }
             
@@ -3524,7 +3524,7 @@ const generateBaseSliderStyle = ( attributes ) => {
                 ${
 					layoutHeight.Mobile && layoutHeightSwitcher === 'fixed'
 						? `min-height: ${ layoutHeight.Mobile }${ layoutHeightUnits.Mobile };`
-						: 'auto'
+						: ''
 				}
             }
 
@@ -3546,7 +3546,7 @@ const generateBaseSliderStyle = ( attributes ) => {
 					layoutHeightSwitcher === 'fixed' &&
 					direction !== 'vertical'
 						? `min-height: ${ layoutHeight.Mobile }${ layoutHeightUnits.Mobile };`
-						: 'auto'
+						: ''
 				}
             }
             

@@ -5489,7 +5489,7 @@ var generateBaseSliderStyle = (attributes2) => {
 
         .${blockId} .swiper-wrapper {
             ${layoutHeightSwitcher !== "adapt" ? `height: auto;` : ""}
-            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : "auto"}
+            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : ""}
         }
 
         ${direction === "vertical" && Number(verticalHeight?.Desktop || "500") > 0 && (verticalHeightUnits?.Desktop || "px") !== "%" ? `.${blockId}.gslider-testimonial-wrapper > .swiper {
@@ -5498,7 +5498,7 @@ var generateBaseSliderStyle = (attributes2) => {
 
         .${blockId} .swiper-slide{
             ${layoutHeightSwitcher !== "adapt" && direction !== "vertical" ? `height: auto !important;` : ""}
-            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : "auto"}
+            ${layoutHeight.Desktop && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Desktop}${layoutHeightUnits.Desktop};` : ""}
         }
         
         .${blockId}.gslider-testimonial-wrapper .gslider-content-wrapper {
@@ -6028,7 +6028,7 @@ var generateBaseSliderStyle = (attributes2) => {
             }
 
             .${blockId} .swiper-wrapper {
-                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : "auto"}
+                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : ""}
             }
 
             ${direction === "vertical" && Number(verticalHeight?.Tablet || "420") > 0 && (verticalHeightUnits?.Tablet || "px") !== "%" ? `.${blockId}.gslider-testimonial-wrapper > .swiper {
@@ -6036,7 +6036,7 @@ var generateBaseSliderStyle = (attributes2) => {
             }` : ""}
 
             .${blockId} .swiper-slide{
-                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : "auto"}
+                ${layoutHeight.Tablet && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Tablet}${layoutHeightUnits.Tablet};` : ""}
             }
             
             .${blockId}.gslider-testimonial-wrapper .gslider-content-wrapper {
@@ -6342,7 +6342,7 @@ var generateBaseSliderStyle = (attributes2) => {
             }
 
             .${blockId} .swiper-wrapper {
-                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : "auto"}
+                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : ""}
             }
 
             ${direction === "vertical" && Number(verticalHeight?.Mobile || "350") > 0 && (verticalHeightUnits?.Mobile || "px") !== "%" ? `.${blockId}.gslider-testimonial-wrapper > .swiper {
@@ -6350,7 +6350,7 @@ var generateBaseSliderStyle = (attributes2) => {
             }` : ""}
 
             .${blockId} .swiper-slide{
-                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : "auto"}
+                ${layoutHeight.Mobile && layoutHeightSwitcher === "fixed" && direction !== "vertical" ? `min-height: ${layoutHeight.Mobile}${layoutHeightUnits.Mobile};` : ""}
             }
             
             .${blockId}.gslider-testimonial-wrapper .gslider-content-wrapper {
