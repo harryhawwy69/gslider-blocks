@@ -23,11 +23,15 @@
       "carousel"
     ]
   },
-  "totalAttributes": 498,
+  "totalAttributes": 499,
   "slideItemSchema": {
     "type": "object",
     "properties": {
       "id": {
+        "type": "string",
+        "default": ""
+      },
+      "slideHash": {
         "type": "string",
         "default": ""
       },
@@ -683,6 +687,10 @@
             "type": "string",
             "default": ""
           },
+          "slideHash": {
+            "type": "string",
+            "default": ""
+          },
           "subTitle": {
             "type": "string",
             "default": "Sub Title"
@@ -928,6 +936,10 @@
       "default": false
     },
     "keyboardNavigation": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableHashNavigation": {
       "type": "boolean",
       "default": false
     },

@@ -44,6 +44,7 @@ export default function Edit( {
 		slideEffect,
 		mousewheelControl,
 		keyboardNavigation,
+		enableHashNavigation,
 		paginationType,
 		dynamicBullets,
 
@@ -158,6 +159,10 @@ export default function Edit( {
 		// Build Swiper settings
 		const swiperSettings = {
 			effect: sliderType === 'carousel' ? carouselEffect : slideEffect,
+			// Deep links, used only when the option is on
+			...( enableHashNavigation && {
+				hashNavigation: { watchState: true },
+			} ),
 			...( sliderType === 'carousel' && {
 				breakpoints: {
 					0: {
@@ -256,6 +261,7 @@ export default function Edit( {
 		infiniteLoop,
 		autoplay,
 		autoplayDelay,
+		enableHashNavigation,
 		pauseOnHover,
 		stopOnLastSlide,
 		reverseDirection,

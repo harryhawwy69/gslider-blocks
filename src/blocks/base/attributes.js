@@ -231,6 +231,10 @@ const attributes = {
 					type: 'string',
 					default: '',
 				},
+				slideHash: {
+					type: 'string',
+					default: '',
+				},
 				subTitle: {
 					type: 'string',
 					default: 'Sub Title',
@@ -474,6 +478,10 @@ const attributes = {
 		default: false,
 	},
 	keyboardNavigation: {
+		type: 'boolean',
+		default: false,
+	},
+	enableHashNavigation: {
 		type: 'boolean',
 		default: false,
 	},

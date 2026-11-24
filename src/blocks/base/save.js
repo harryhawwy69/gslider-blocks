@@ -20,6 +20,7 @@ export default function Save( { attributes } ) {
 		slideEffect,
 		mousewheelControl,
 		keyboardNavigation,
+		enableHashNavigation,
 		paginationType,
 		dynamicBullets,
 
@@ -88,6 +89,10 @@ export default function Save( { attributes } ) {
 	// Configure Swiper settings for frontend rendering
 	const swiperSettings = JSON.stringify( {
 		effect: sliderType === 'carousel' ? carouselEffect : slideEffect,
+		// Deep links, serialized only when the option is on
+		...( enableHashNavigation && {
+			hashNavigation: { watchState: true },
+		} ),
 
 		// Responsive breakpoints for Desktop, Tablet, and Mobile
 		breakpoints: {
@@ -197,6 +202,11 @@ export default function Save( { attributes } ) {
 							className={ `swiper-slide ${
 								sliderType === 'slider' ? 'slide-mode' : ''
 							}` }
+							data-hash={
+								enableHashNavigation && item.slideHash
+									? item.slideHash
+									: undefined
+							}
 						>
 							<div
 								className={ `gslider-content-wrapper ${ item.id }` }

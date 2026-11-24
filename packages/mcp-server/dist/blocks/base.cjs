@@ -291,6 +291,10 @@ var attributes = {
           type: "string",
           default: ""
         },
+        slideHash: {
+          type: "string",
+          default: ""
+        },
         subTitle: {
           type: "string",
           default: "Sub Title"
@@ -528,6 +532,10 @@ var attributes = {
     default: false
   },
   keyboardNavigation: {
+    type: "boolean",
+    default: false
+  },
+  enableHashNavigation: {
     type: "boolean",
     default: false
   },
@@ -3653,6 +3661,7 @@ function Save({ attributes: attributes2 }) {
     slideEffect,
     mousewheelControl,
     keyboardNavigation,
+    enableHashNavigation,
     paginationType,
     dynamicBullets,
     showSubTitle,
@@ -3699,6 +3708,10 @@ function Save({ attributes: attributes2 }) {
   const anyPaginationEnabled = paginationEnabled.Mobile || paginationEnabled.Tablet || paginationEnabled.Desktop;
   const swiperSettings = JSON.stringify({
     effect: sliderType === "carousel" ? carouselEffect : slideEffect,
+    // Deep links, serialized only when the option is on
+    ...enableHashNavigation && {
+      hashNavigation: { watchState: true }
+    },
     // Responsive breakpoints for Desktop, Tablet, and Mobile
     breakpoints: {
       0: {
@@ -3783,6 +3796,7 @@ function Save({ attributes: attributes2 }) {
         "div",
         {
           className: `swiper-slide ${sliderType === "slider" ? "slide-mode" : ""}`,
+          "data-hash": enableHashNavigation && item.slideHash ? item.slideHash : void 0,
           children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
             "div",
             {
