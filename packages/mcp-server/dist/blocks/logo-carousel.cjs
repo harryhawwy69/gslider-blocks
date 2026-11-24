@@ -3884,7 +3884,8 @@ var generateLogoCarouselStyle = (attributes2) => {
             --transition-duration: ${logoLinkTransitionDuration?.Desktop || 300}ms;
         }
 
-        .${blockId}.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {           
+        .${blockId}.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {
+            display: ${showCaption?.Desktop ? "block" : "none"};           
         
             ${logoCaptionFontFamily ? `font-family: ${logoCaptionFontFamily};` : ""} 
             ${logoCaptionFontSize.Desktop && logoCaptionFontSizeUnits.Desktop ? `font-size: ${logoCaptionFontSize.Desktop}${logoCaptionFontSizeUnits.Desktop};` : ""}
@@ -4224,6 +4225,7 @@ var generateLogoCarouselStyle = (attributes2) => {
             }
 
             .${blockId}.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {
+            display: ${showCaption?.Tablet ? "block" : "none"};
                 ${logoCaptionFontSize.Tablet && logoCaptionFontSizeUnits.Tablet ? `font-size: ${logoCaptionFontSize.Tablet}${logoCaptionFontSizeUnits.Tablet};` : ""}
                 ${logoCaptionLineHeight.Tablet && logoCaptionLineHeightUnits.Tablet ? `line-height: ${logoCaptionLineHeight.Tablet}${logoCaptionLineHeightUnits.Tablet};` : ""}
                 ${logoCaptionLetterSpacing.Tablet && logoCaptionLetterSpacingUnits.Tablet ? `letter-spacing: ${logoCaptionLetterSpacing.Tablet}${logoCaptionLetterSpacingUnits.Tablet};` : ""}
@@ -4433,6 +4435,7 @@ var generateLogoCarouselStyle = (attributes2) => {
             }
 
             .${blockId}.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {
+            display: ${showCaption?.Mobile ? "block" : "none"};
                 ${logoCaptionFontSize.Mobile && logoCaptionFontSizeUnits.Mobile ? `font-size: ${logoCaptionFontSize.Mobile}${logoCaptionFontSizeUnits.Mobile};` : ""}
                 ${logoCaptionLineHeight.Mobile && logoCaptionLineHeightUnits.Mobile ? `line-height: ${logoCaptionLineHeight.Mobile}${logoCaptionLineHeightUnits.Mobile};` : ""}
                 ${logoCaptionLetterSpacing.Mobile && logoCaptionLetterSpacingUnits.Mobile ? `letter-spacing: ${logoCaptionLetterSpacing.Mobile}${logoCaptionLetterSpacingUnits.Mobile};` : ""}

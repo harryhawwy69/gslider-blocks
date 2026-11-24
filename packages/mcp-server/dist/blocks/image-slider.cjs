@@ -3841,7 +3841,8 @@ var generateImageSliderStyle = (attributes2) => {
             ${imageLinkHoverEffect === "move-up" ? "transform: translateY(calc(-1 * var(--hover-lift)));" : ""}
         }
 
-        .${blockId}.gslider-image-slider-wrapper .gslider-image-slider-caption {           
+        .${blockId}.gslider-image-slider-wrapper .gslider-image-slider-caption {
+            display: ${showCaption?.Desktop ? "block" : "none"};           
         
             ${imageCaptionFontFamily ? `font-family: ${imageCaptionFontFamily};` : ""} 
             ${imageCaptionFontSize.Desktop && imageCaptionFontSizeUnits.Desktop ? `font-size: ${imageCaptionFontSize.Desktop}${imageCaptionFontSizeUnits.Desktop};` : ""}
@@ -4174,6 +4175,7 @@ var generateImageSliderStyle = (attributes2) => {
             }
 
             .${blockId}.gslider-image-slider-wrapper .gslider-image-slider-caption {
+            display: ${showCaption?.Tablet ? "block" : "none"};
                 ${imageCaptionFontSize.Tablet && imageCaptionFontSizeUnits.Tablet ? `font-size: ${imageCaptionFontSize.Tablet}${imageCaptionFontSizeUnits.Tablet};` : ""}
                 ${imageCaptionLineHeight.Tablet && imageCaptionLineHeightUnits.Tablet ? `line-height: ${imageCaptionLineHeight.Tablet}${imageCaptionLineHeightUnits.Tablet};` : ""}
                 ${imageCaptionLetterSpacing.Tablet && imageCaptionLetterSpacingUnits.Tablet ? `letter-spacing: ${imageCaptionLetterSpacing.Tablet}${imageCaptionLetterSpacingUnits.Tablet};` : ""}
@@ -4378,6 +4380,7 @@ var generateImageSliderStyle = (attributes2) => {
             }
 
             .${blockId}.gslider-image-slider-wrapper .gslider-image-slider-caption {
+            display: ${showCaption?.Mobile ? "block" : "none"};
                 ${imageCaptionFontSize.Mobile && imageCaptionFontSizeUnits.Mobile ? `font-size: ${imageCaptionFontSize.Mobile}${imageCaptionFontSizeUnits.Mobile};` : ""}
                 ${imageCaptionLineHeight.Mobile && imageCaptionLineHeightUnits.Mobile ? `line-height: ${imageCaptionLineHeight.Mobile}${imageCaptionLineHeightUnits.Mobile};` : ""}
                 ${imageCaptionLetterSpacing.Mobile && imageCaptionLetterSpacingUnits.Mobile ? `letter-spacing: ${imageCaptionLetterSpacing.Mobile}${imageCaptionLetterSpacingUnits.Mobile};` : ""}

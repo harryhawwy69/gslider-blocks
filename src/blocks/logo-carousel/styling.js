@@ -1037,7 +1037,8 @@ const generateLogoCarouselStyle = ( attributes ) => {
 			}ms;
         }
 
-        .${ blockId }.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {           
+        .${ blockId }.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {
+            display: ${ showCaption?.Desktop ? 'block' : 'none' };           
         
             ${
 				logoCaptionFontFamily
@@ -1899,6 +1900,7 @@ const generateLogoCarouselStyle = ( attributes ) => {
             }
 
             .${ blockId }.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {
+            display: ${ showCaption?.Tablet ? 'block' : 'none' };
                 ${
 					logoCaptionFontSize.Tablet &&
 					logoCaptionFontSizeUnits.Tablet
@@ -2432,6 +2434,7 @@ const generateLogoCarouselStyle = ( attributes ) => {
             }
 
             .${ blockId }.gslider-logo-carousel-wrapper .gslider-logo-carousel-caption {
+            display: ${ showCaption?.Mobile ? 'block' : 'none' };
                 ${
 					logoCaptionFontSize.Mobile &&
 					logoCaptionFontSizeUnits.Mobile
