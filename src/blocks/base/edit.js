@@ -291,6 +291,7 @@ export default function Edit( {
 	const handleAddItem = () => {
 		const newItem = {
 			id: `item-${ sliderItems.length + 1 }`,
+			slideHash: '',
 			subTitle: 'Sub Title',
 			title: `Slider Item ${ sliderItems.length + 1 }`,
 			description:
@@ -554,7 +555,14 @@ export default function Edit( {
 				>
 					<div className="swiper-wrapper">
 						{ sliderItemList.map( ( item, index ) => (
-							<div className="swiper-slide" key={ item.id }>
+							<div
+								className="swiper-slide"
+								key={ item.id }
+								{ ...( enableHashNavigation &&
+									item.slideHash && {
+										'data-hash': item.slideHash,
+									} ) }
+							>
 								<div
 									className={ `gslider-content-wrapper ${ item.id }` }
 									ref={ panelRef }

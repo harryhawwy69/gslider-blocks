@@ -172,6 +172,24 @@ export default function SortableItem( {
 									/>
 									<TextControl
 										label={ __(
+											'Slide URL Hash',
+											'gslider-blocks'
+										) }
+										value={ item.slideHash || '' }
+										onChange={ ( value ) =>
+											handleChangeItem(
+												item.id,
+												'slideHash',
+												value.replace( /^#/, '' )
+											)
+										}
+										help={ __(
+											'Optional URL hash for deep-linking (e.g. "promo" for #promo)',
+											'gslider-blocks'
+										) }
+									/>
+									<TextControl
+										label={ __(
 											'Primary Button',
 											'gslider-blocks'
 										) }
