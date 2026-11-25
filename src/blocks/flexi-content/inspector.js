@@ -839,7 +839,7 @@ const Inspector = ( { attributes, setAttributes } ) => {
 				<ToggleControl
 					label={ __( 'Centered Slides', 'gslider-blocks' ) }
 					help={ __(
-						'Centers the active slide, showing partial previews of previous and next slides on the sides.',
+						'Centers the active slide with peeking adjacent slides.',
 						'gslider-blocks'
 					) }
 					checked={ centeredSlides }
